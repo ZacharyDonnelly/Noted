@@ -1,0 +1,28 @@
+@import '../../styles/_variables.scss';
+
+nav {
+  height: 4.2rem;
+  width: 100%;
+  background-color: $lightest-navy;
+  z-index: 5;
+
+  ul {
+    height: inherit;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.6rem;
+
+    li {
+      color: $white;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.8rem;
+      cursor: pointer;
+
+      &:last-of-type {
+        margin-right: 3.2rem;
+      }
+    }
+  }
+}

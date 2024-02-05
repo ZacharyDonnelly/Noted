@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'path';
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 
@@ -12,7 +12,7 @@ const jestConfig = {
   moduleNameMapper: {
     // if your using tsconfig.paths theres is no harm in telling jest
     '@components/(.*)$': '<rootDir>/src/components/$1',
-    '@/(.*)$': '<rootDir>/src/$1',
+    '@/(.*)$': '<rootDir>/src/app/$1',
 
     // mocking assets and styling
     '^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
@@ -21,7 +21,10 @@ const jestConfig = {
   },
   testPathIgnorePatterns: ['node_modules', '\\.cache', '<rootDir>.*/public', '\\lib', '<rootDir>/cypress/'],
   globals: {
-    __PATH_PREFIX__: ''
+    __PATH_PREFIX__: '',
+    'ts-jest': {
+      tsConfig: './config/jest/tsconfig.test.json'
+    }
   },
   // to obtain access to the matchers.
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
@@ -33,6 +36,6 @@ const jestConfig = {
   setupFilesAfterEnv: ['./config/jest/setupTests.ts'],
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}']
-}
+};
 
-export default jestConfig
+export default jestConfig;

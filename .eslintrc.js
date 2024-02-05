@@ -81,7 +81,6 @@ module.exports = {
         ],
         '@typescript-eslint/no-unused-vars': 'off',
         'react/prop-types': 'off',
-        '@typescript-eslint/semi': 'off',
         '@typescript-eslint/comma-dangle': 'off',
         'import/no-extraneous-dependencies': 'off',
         '@typescript-eslint/no-var-requires': 'off'
