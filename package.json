@@ -32,7 +32,7 @@
     "test:e2e:dev": "CYPRESS_SUPPORT=y CYPRESS_BASE_URL=http://localhost:8000 CYPRESS_STAGE=dev start-server-and-test develop http://localhost:8000 cy:open",
     "test:e2e": "CYPRESS_SUPPORT=y yarn build && start-server-and-test serve http://localhost:9000 cy:open",
     "test:e2e:ci": "CYPRESS_SUPPORT=y yarn build && start-server-and-test serve http://localhost:9000 cy:run",
-    "prepare": "husky"
+    "prepare": "node .husky/install.mjs"
   },
   "dependencies": {
     "next": "latest",
