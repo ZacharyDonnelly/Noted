@@ -1,6 +1,9 @@
+import Hero from './components/hero/hero';
+import './styles/index.scss';
+
 const Home: React.FC = () => (
-  <div>
-    <h1>Hello World - Home page</h1>
+  <div className="home">
+    <Hero />
   </div>
 );
 

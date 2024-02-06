@@ -10,6 +10,7 @@
 
 html {
   width: 100%;
+  height: 100%;
   font-size: 10px;
   scroll-behavior: smooth;
   scrollbar-width: thin;
@@ -38,6 +39,11 @@ a {
 
 li {
   list-style: none;
+}
+
+button {
+  outline: none;
+  border: none;
 }
 
 /* Scrollbar Styles */
