@@ -5,15 +5,18 @@ nav {
   width: 100%;
   background-color: $lightest-navy;
   z-index: 5;
+  display: flex;
+  align-items: center;
 
-  ul {
+  .nav_items {
     height: inherit;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 1.6rem;
 
-    li {
+    .nav_item {
       color: $white;
       font-size: 1.6rem;
       font-weight: 700;
@@ -22,6 +25,10 @@ nav {
 
       &:last-of-type {
         margin-right: 3.2rem;
+
+        @media screen and (max-width: 768px) {
+          margin-right: 1.6rem;
+        }
       }
     }
   }
