@@ -13,6 +13,7 @@ $green-tint: rgba(100, 255, 218, 0.1);
 $pink: #f57dff;
 $blue: #57cbff;
 $black: #333333;
+$linkPurple: #bf40bf;
 
 $font-sans:
   'Calibre',
@@ -33,3 +34,9 @@ $tab-width: 120px;
 
 $easing: cubic-bezier(0.645, 0.045, 0.355, 1);
 $transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+/* borders */
+
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;

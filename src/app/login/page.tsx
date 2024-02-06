@@ -1,7 +1,8 @@
 const Login: React.FC = () => (
-  <div>
-    <h1>Hello World - Login page</h1>
-  </div>
+  <section className="login">
+    <h1>LOGIN PAGE</h1>
+    <form className="login_form" />
+  </section>
 );
 
 export default Login;

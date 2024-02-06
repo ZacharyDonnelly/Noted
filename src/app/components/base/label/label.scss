@@ -1,0 +1,9 @@
+@import '../../../styles/_variables.scss';
+
+.form_label {
+  max-width: fit-content;
+  font-weight: 600;
+  font-size: 1.6rem;
+  font-family: $font-sans;
+  color: $black;
+}
