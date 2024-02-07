@@ -18,13 +18,13 @@
 
     header {
       align-self: flex-start;
-      margin-top: 3.6rem;
+      margin-top: $spacing-lg;
 
       h3 {
         font-family: $font-sans;
         font-size: 3.2rem;
         line-height: 3.6rem;
-        margin-bottom: 1.6rem;
+        margin-bottom: $spacing-sm;
       }
 
       p {
@@ -37,7 +37,7 @@
       display: flex;
       justify-content: center;
       gap: 2rem;
-      margin-top: 3.6rem;
+      margin-top: $spacing-lg;
     }
   }
 
@@ -48,13 +48,13 @@
 
     header {
       align-self: flex-start;
-      margin-top: 3.6rem;
+      margin-top: $spacing-lg;
 
       h3 {
         font-family: $font-sans;
         font-size: 3.2rem;
         line-height: 3.6rem;
-        margin-bottom: 1.6rem;
+        margin-bottom: $spacing-sm;
       }
 
       p {
@@ -68,7 +68,7 @@
       display: flex;
       justify-content: center;
       gap: 2rem;
-      margin: 3.6rem 0 5rem;
+      margin: $spacing-lg 0 5rem;
     }
   }
 }

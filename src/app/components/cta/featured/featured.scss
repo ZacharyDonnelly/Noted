@@ -13,8 +13,8 @@
     align-items: center;
     gap: 1rem;
     background-color: $white;
-    border: 1px solid $black;
-    border-radius: $border-radius-sm;
+    border: 1px solid $borderGray;
+    border-radius: $border-radius-xs;
 
     p {
       align-self: flex-start;

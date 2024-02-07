@@ -4,15 +4,13 @@ import './label.scss';
 interface LabelProps {
   id: string;
   text: string;
-  noSpacing: boolean;
   className?: string;
 }
 
-const Label: React.FC<LabelProps> = ({ id, text, noSpacing, className = '' }) => (
+const Label: React.FC<LabelProps> = ({ id, text, className = '' }) => (
   <label
     className={cn('form_label', {
-      [className]: className,
-      'noSpacing': noSpacing
+      [className]: className
     })}
     htmlFor={id}
   >

@@ -3,7 +3,8 @@
 nav {
   height: 4.2rem;
   width: 100%;
-  background-color: $lightest-navy;
+  background-color: $white;
+  border-bottom: 0.5px solid $borderGray;
   z-index: 5;
   display: flex;
   align-items: center;
@@ -17,17 +18,32 @@ nav {
     gap: 1.6rem;
 
     .nav_item {
-      color: $white;
+      color: $black;
       font-size: 1.6rem;
       font-weight: 700;
       line-height: 1.8rem;
       cursor: pointer;
 
+      .nav_button {
+        background-color: $brand_blue;
+        border: 1px solid $brand_blue;
+        border-radius: $border-radius-md;
+        color: $white;
+        height: 3rem;
+        width: 8rem;
+
+        &.create {
+          background-color: $gray;
+          border: 1px solid $gray;
+          color: $black;
+        }
+      }
+
       &:last-of-type {
         margin-right: 3.2rem;
 
         @media screen and (max-width: 768px) {
-          margin-right: 1.6rem;
+          margin-right: $spacing-sm;
         }
       }
     }
