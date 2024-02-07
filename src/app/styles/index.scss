@@ -1,6 +1,6 @@
 @import '../styles/_variables.scss';
 
-.home {
+.homepage {
   height: auto;
   width: 100%;
   display: flex;
@@ -9,14 +9,14 @@
   flex-direction: column;
   background-color: $white;
 
-  .cta {
+  .homepage_cta {
     display: flex;
     width: 110rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    header {
+    .homepage_header {
       align-self: flex-start;
       margin-top: $spacing-lg;
 
@@ -46,11 +46,11 @@
     width: 110rem;
     flex-direction: column;
 
-    header {
+    .featured_header {
       align-self: flex-start;
       margin-top: $spacing-lg;
 
-      h3 {
+      h4 {
         font-family: $font-sans;
         font-size: 3.2rem;
         line-height: 3.6rem;

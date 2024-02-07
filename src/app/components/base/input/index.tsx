@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import Label from '../label/label';
+import Label from '../label';
 import './input.scss';
 
 interface InputProps {

@@ -4,10 +4,10 @@ import Featured from './components/cta/featured/featured';
 import './styles/index.scss';
 
 const Home: React.FC = () => (
-  <div className="home">
+  <div className="homepage">
     <Hero />
-    <section className="cta">
-      <header>
+    <section className="homepage_cta">
+      <header className="homepage_header">
         <h3>Why Notebook?</h3>
         <p>
           Notebook is a personal note taking app and blog, all in one It&apos;s the perfect tool for creators, writers,
@@ -31,7 +31,7 @@ const Home: React.FC = () => (
     </section>
     <section className="featured">
       <header className="featured_header">
-        <h3>Featured blog posts</h3>
+        <h4>Featured blog posts</h4>
         <p>Most recent blog posts that you may find interesting</p>
       </header>
       <div className="featured_row">

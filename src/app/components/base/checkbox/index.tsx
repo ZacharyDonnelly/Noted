@@ -2,7 +2,7 @@
 
 import cn from 'classnames';
 import { ChangeEventHandler } from 'react';
-import Label from '../label/label';
+import Label from '../label';
 import './checkbox.scss';
 
 interface CheckboxProps {

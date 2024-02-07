@@ -1,7 +1,9 @@
 'use client';
 
-import Checkbox from '@/components/base/checkbox/checkbox';
-import Input from '@/components/base/input/input';
+import Button from '@/components/base/button';
+import Checkbox from '@/components/base/checkbox';
+import Input from '@/components/base/input';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -40,10 +42,19 @@ const Login: React.FC = () => {
               checked={isChecked}
             />
           </div>
-          <button type="button" className="login_button">
-            Log in
-          </button>
+          <Button btnText="Log in" className="login_button" />
         </form>
+        <div className="login_oauth_buttons">
+          <p className="continue_with">Or continue with</p>
+          <div className="oauth_button_group">
+            <Button className="google_oauth_button" btnText="Google" mask>
+              <Image src="/google.svg" width={20} height={20} alt="Sign in with Google" />
+            </Button>
+            <Button className="github_oauth_button" btnText="Github" mask>
+              <Image src="/github.svg" width={20} height={20} alt="Sign in with Github" />
+            </Button>
+          </div>
+        </div>
       </div>
     </section>
   );

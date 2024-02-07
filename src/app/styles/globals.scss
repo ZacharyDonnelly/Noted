@@ -25,7 +25,11 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-weight: 600;
   font-family: $font-mono;
@@ -48,13 +52,7 @@ select {
   font: inherit;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+p {
   overflow-wrap: break-word;
 }
 
@@ -70,6 +68,7 @@ li {
 button {
   outline: none;
   border: none;
+  cursor: pointer;
 }
 
 /*  highlight */

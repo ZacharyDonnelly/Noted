@@ -55,12 +55,48 @@
       .login_button {
         margin-top: 3rem;
         width: 48rem;
-        background-color: $brand_blue;
-        color: $white;
-        font-size: 1.6rem;
-        font-weight: 600;
         border-radius: $border-radius-lg;
         padding: 1rem 0;
+
+        &:hover {
+          background-color: $brand_blue_dark;
+        }
+      }
+    }
+
+    .login_oauth_buttons {
+      display: flex;
+      flex-direction: column;
+      margin-top: $spacing-md;
+
+      .continue_with {
+        font-size: 1.4rem;
+        color: $borderGray;
+        text-align: center;
+      }
+      .oauth_button_group {
+        display: flex;
+        justify-content: center;
+        margin-top: $spacing-md;
+        gap: $spacing-sm;
+
+        .google_oauth_button,
+        .github_oauth_button {
+          background-color: $white;
+          border: 1px solid $borderGray;
+          border-radius: $border-radius-md;
+          color: $black;
+          height: 4rem;
+          width: 20rem;
+        }
+        .google_oauth_button img {
+          height: 3.2rem;
+          width: 3.2rem;
+        }
+        .github_oauth_button img {
+          height: 2.4rem;
+          width: 2.4rem;
+        }
       }
     }
   }

@@ -1,7 +1,9 @@
 'use client';
 
-import Checkbox from '@/components/base/checkbox/checkbox';
-import Input from '@/components/base/input/input';
+import Button from '@/components/base/button';
+import Checkbox from '@/components/base/checkbox';
+import Input from '@/components/base/input';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -27,9 +29,9 @@ const Signup: React.FC = () => {
           </div>
           <p>
             Already have an account?
-            <button className="login_link_button" type="button">
+            <Button className="login_link_button">
               <Link href="/login">Log in</Link>
-            </button>
+            </Button>
           </p>
         </header>
         <form className="signup_form">
@@ -51,9 +53,7 @@ const Signup: React.FC = () => {
               checked={isChecked}
             />
           </div>
-          <button type="button" className="signup_button">
-            Create Account
-          </button>
+          <Button btnText="Create Account" className="signup_button" />
         </form>
       </div>
     </section>

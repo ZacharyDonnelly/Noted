@@ -1,5 +1,7 @@
+import Button from '@/components/base/button';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import './navbar.scss';
 
 const Navbar: React.FC = () => (
@@ -11,14 +13,14 @@ const Navbar: React.FC = () => (
     </div>
     <ul className="nav_items">
       <li className="nav_item">
-        <button type="button" className="nav_button">
+        <Button className="nav_button">
           <Link href="/login">Login</Link>
-        </button>
+        </Button>
       </li>
       <li className="nav_item">
-        <button type="button" className="nav_button create">
+        <Button className="nav_button create">
           <Link href="/signup">Sign up</Link>
-        </button>
+        </Button>
       </li>
     </ul>
   </nav>

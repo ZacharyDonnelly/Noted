@@ -3,6 +3,7 @@ $accent_light_blue: #d1dbe8;
 $black: #333333;
 $borderGray: #c9c9c9;
 $brand_blue: #1a80e5;
+$brand_blue_dark: darken(#1a80e5, 10%); /* stylelint-disable function-no-unknown */
 $brand_white: #e6f1ff;
 $dark-slate: #495670;
 $gray: #e8edf2;

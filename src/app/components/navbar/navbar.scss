@@ -1,7 +1,7 @@
 @import '../../styles/_variables.scss';
 
 nav {
-  height: 4.2rem;
+  height: 5.2rem;
   width: 100%;
   background-color: $white;
   border-bottom: 0.5px solid $borderGray;
@@ -25,10 +25,8 @@ nav {
       cursor: pointer;
 
       .nav_button {
-        background-color: $brand_blue;
-        border: 1px solid $brand_blue;
         border-radius: $border-radius-md;
-        color: $white;
+        font-size: 1.6rem;
         height: 3rem;
         width: 8rem;
 
