@@ -1,12 +1,7 @@
+import { InputProps } from '@/types/components/base/input';
 import cn from 'classnames';
 import Label from '../label';
 import './input.scss';
-
-interface InputProps {
-  id: string;
-  label_text: string;
-  className?: string;
-}
 
 const Input: React.FC<InputProps> = ({ id, label_text, className = '' }) => (
   <div className="form_input">

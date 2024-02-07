@@ -1,4 +1,4 @@
-@import '../../styles/_variables.scss';
+@import '../../styles/_vars.scss';
 
 .hero {
   width: 100%;
@@ -13,7 +13,7 @@
     width: 110rem;
 
     .hero_img {
-      background-image: url('../../../../public/hero.jpg');
+      background-image: url('../../../../public/images/hero.jpg');
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;

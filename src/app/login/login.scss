@@ -1,4 +1,4 @@
-@import '../styles/_variables.scss';
+@import '../styles/_vars.scss';
 
 .login {
   height: 100%;
@@ -71,7 +71,7 @@
 
       .continue_with {
         font-size: 1.4rem;
-        color: $borderGray;
+        color: $accent_brand_blue;
         text-align: center;
       }
       .oauth_button_group {

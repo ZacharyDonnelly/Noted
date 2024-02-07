@@ -1,0 +1,46 @@
+**/.DS_Store
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+README.md
+certs/
+docs/
+notes/
+.eslintrc.*
+
+# pass env vars through docker-compose
+# or mount .env* in dev
+.env*
+envs/
+dist/
+
+# sqlite
+prisma/db.dev
+
+# named volumes
+.next/
+node_modules/
+
+# cypress
+tests-e2e/node_modules/
+
+# jest coverage
+coverage/
+
+# tests
+tests/
+tests/**/*
+cypress/
+cypress/**/*
+*.config.ts
+cypress.*
+jest.*
+
+# husky
+.husky/
+
+# git
+.git/
+.gitignore
+**/.gitkeep
+.github/

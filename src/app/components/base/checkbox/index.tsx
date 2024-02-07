@@ -1,18 +1,7 @@
-'use client';
-
+import { CheckboxProps } from '@/types/components/base/checkbox';
 import cn from 'classnames';
-import { ChangeEventHandler } from 'react';
 import Label from '../label';
 import './checkbox.scss';
-
-interface CheckboxProps {
-  id: string;
-  labelText: string;
-  checked: boolean;
-  name: string;
-  changeHandler: ChangeEventHandler<HTMLInputElement>;
-  className?: string;
-}
 
 const Checkbox: React.FC<CheckboxProps> = ({ id, name, checked, changeHandler, labelText, className = '' }) => (
   <div

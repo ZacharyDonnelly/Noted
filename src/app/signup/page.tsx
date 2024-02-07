@@ -20,10 +20,10 @@ const Signup: React.FC = () => {
       <div className="signup_wrapper">
         <header className="signup_header">
           <div className="signup_logo_box">
-            <h1>Sign up for Noted</h1>
+            <h1>Create account</h1>
             <div className="signup_logo">
               <Link href="/">
-                <Image src="/logo.svg" width={100} height={85} alt="Notebook" />
+                <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
               </Link>
             </div>
           </div>
@@ -53,7 +53,9 @@ const Signup: React.FC = () => {
               checked={isChecked}
             />
           </div>
-          <Button btnText="Create Account" className="signup_button" />
+          <Button className="signup_button">
+            <Link href="/dashboard">Create account</Link>
+          </Button>
         </form>
       </div>
     </section>

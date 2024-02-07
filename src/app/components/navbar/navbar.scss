@@ -1,4 +1,4 @@
-@import '../../styles/_variables.scss';
+@import '../../styles/_vars.scss';
 
 nav {
   height: 5.2rem;
@@ -16,6 +16,10 @@ nav {
     justify-content: flex-end;
     align-items: center;
     gap: 1.6rem;
+
+    &.singleBtn {
+      gap: 0;
+    }
 
     .nav_item {
       color: $black;

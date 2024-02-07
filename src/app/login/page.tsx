@@ -19,10 +19,10 @@ const Login: React.FC = () => {
     <section className="login">
       <div className="login_wrapper">
         <header className="login_header">
-          <h1>Login to Noted</h1>
+          <h1>Login</h1>
           <div className="login_logo">
             <Link href="/">
-              <Image src="/logo.svg" width={100} height={85} alt="Notebook" />
+              <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
             </Link>
           </div>
         </header>
@@ -42,16 +42,18 @@ const Login: React.FC = () => {
               checked={isChecked}
             />
           </div>
-          <Button btnText="Log in" className="login_button" />
+          <Button className="login_button">
+            <Link href="/dashboard">Log in</Link>
+          </Button>
         </form>
         <div className="login_oauth_buttons">
           <p className="continue_with">Or continue with</p>
           <div className="oauth_button_group">
             <Button className="google_oauth_button" btnText="Google" mask>
-              <Image src="/google.svg" width={20} height={20} alt="Sign in with Google" />
+              <Image src="/icons/google.svg" width={20} height={20} alt="Sign in with Google" />
             </Button>
             <Button className="github_oauth_button" btnText="Github" mask>
-              <Image src="/github.svg" width={20} height={20} alt="Sign in with Github" />
+              <Image src="/icons/github.svg" width={20} height={20} alt="Sign in with Github" />
             </Button>
           </div>
         </div>

@@ -1,0 +1,32 @@
+{
+  // !EDITOR--------------------------------
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.fixAll.stylelint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  // !FILES-----------------------------------
+  "files.autoSave": "onFocusChange",
+  // !GIT-------------------------------------
+  "git.fetchOnPull": true,
+  // !MISC------------------------------------
+  "json.format.enable": true,
+  "jest.autoRun": "off", // disable run tests on startup
+  // !TYPESCRIPT------------------------------
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // !STYLELINT-------------------------------
+  "stylelint.enable": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.snippet": ["css", "less", "postcss", "scss"],
+  "stylelint.validate": ["css", "less", "postcss", "scss"],
+  // !OVERRIDES--------------------------------
+  "[scss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint",
+    "editor.formatOnSave": true
+  }
+}
