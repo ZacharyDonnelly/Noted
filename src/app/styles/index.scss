@@ -1,10 +1,75 @@
 @import '../styles/_variables.scss';
 
 .home {
-  height: 95vh;
+  height: auto;
   overflow: hidden;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background-color: $white;
+
+  .cta {
+    display: flex;
+    width: 110rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    header {
+      align-self: flex-start;
+      margin-top: 3.6rem;
+
+      h3 {
+        font-family: $font-sans;
+        font-size: 3.2rem;
+        line-height: 3.6rem;
+        margin-bottom: 1.6rem;
+      }
+
+      p {
+        font-family: $font-mono;
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+      }
+    }
+    .card_row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3.6rem;
+    }
+  }
+
+  .featured {
+    display: flex;
+    width: 110rem;
+    flex-direction: column;
+
+    header {
+      align-self: flex-start;
+      margin-top: 3.6rem;
+
+      h3 {
+        font-family: $font-sans;
+        font-size: 3.2rem;
+        line-height: 3.6rem;
+        margin-bottom: 1.6rem;
+      }
+
+      p {
+        font-family: $font-mono;
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+      }
+    }
+
+    .featured_row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 3.6rem 0 5rem;
+    }
+  }
 }

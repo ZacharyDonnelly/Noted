@@ -1,19 +1,45 @@
 @import '../../styles/_variables.scss';
 
 .hero {
-  width: 100rem;
-  height: 35rem;
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 
-  .hero_content {
-    margin-top: 15rem;
-    height: 28rem;
-    padding: 1rem;
+  .hero_wrapper {
+    position: relative;
+    display: flex;
+    margin-top: 3rem;
+    height: 65rem;
+    width: 110rem;
+
+    .hero_img {
+      background-image: url('../../../../public/hero.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      border-radius: $border-radius-md;
+      height: 65rem;
+      width: 110rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
 
     header {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-110%, -20%);
       margin-top: 1rem;
+
+      h1,
+      h2 {
+        letter-spacing: -0.01px;
+        text-align: left;
+        color: $white;
+      }
 
       h1 {
         display: flex;
@@ -21,36 +47,31 @@
         font-family: $font-mono;
         font-size: 4.8rem;
         line-height: 5.2rem;
-        font-weight: 700;
+        font-weight: 800;
         padding-bottom: 1.5rem;
-        max-width: 52.5rem;
+        max-width: 52rem;
         border-bottom: 1px solid gray;
       }
 
       h2 {
         font-family: $font-sans;
         margin-top: 2rem;
-        max-width: 52rem;
         font-size: 2.8rem;
         line-height: 3.2rem;
-        letter-spacing: -0.01px;
+        max-width: 45rem;
         font-weight: 600;
       }
     }
-  }
 
-  .hero_button {
-    margin-top: 2.5rem;
-    border-radius: 4rem;
-    background-color: $blue;
-    font-weight: 700;
-    font-size: 2rem;
-    color: $white;
-    padding: 1.5rem 3rem;
-    cursor: pointer;
-
-    &:hover {
-      background-color: darken($blue, 10%);
+    .hero_button {
+      background-color: $brand_blue;
+      color: $white;
+      font-weight: 600;
+      font-size: 1.8rem;
+      border-radius: $border-radius-md;
+      cursor: pointer;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
     }
   }
 }

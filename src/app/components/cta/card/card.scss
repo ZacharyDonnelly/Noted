@@ -1,0 +1,42 @@
+@import '../../../styles/_variables.scss';
+
+.card {
+  width: 25rem;
+  height: 10rem;
+
+  .card_wrapper {
+    width: 25rem;
+    height: 10rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: $accent_light_blue;
+    border: 1px solid $accent_light_blue;
+    border-radius: $border-radius-sm;
+
+    h4,
+    p {
+      color: $black;
+      align-self: flex-start;
+    }
+
+    h4 {
+      text-align: center;
+      border-bottom: 1px solid $black;
+      padding-bottom: 0.5rem;
+      font-family: $font-mono;
+      font-weight: 600;
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+    }
+
+    p {
+      text-align: left;
+      font-family: $font-sans;
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
+  }
+}
