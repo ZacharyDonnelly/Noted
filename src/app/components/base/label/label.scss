@@ -2,8 +2,12 @@
 
 .form_label {
   max-width: fit-content;
-  font-weight: 600;
-  font-size: 1.6rem;
+  font-weight: 500;
+  font-size: 1.4rem;
   font-family: $font-sans;
   color: $black;
+  margin-bottom: 0.8rem;
+
+  &.noSpacing {
+  }
 }
