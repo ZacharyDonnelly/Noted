@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
   const [isPassedAuth, setIsPassedAuth] = useState<boolean>(false);
   const pathname = usePathname();
 
-  // TODO: Refactor this because...well it's hideous
+  // Refactor this because...well it's hideous
   const stateHandler = (page: string): void => {
     if (page === 'login') {
       setIsPassedAuth(false);
