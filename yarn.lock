@@ -1359,7 +1359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^6.4.1":
+"@testing-library/jest-dom@npm:^6.4.2":
   version: 6.4.2
   resolution: "@testing-library/jest-dom@npm:6.4.2"
   dependencies:
@@ -1469,7 +1469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7, @types/babel__core@npm:^7.1.14":
+"@types/babel__core@npm:^7.1.14":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
   dependencies:
@@ -1620,7 +1620,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.53":
+"@types/react@npm:*, @types/react@npm:^18.2.55":
   version: 18.2.55
   resolution: "@types/react@npm:18.2.55"
   dependencies:
@@ -6728,13 +6728,12 @@ __metadata:
     "@prisma/client": ^5.9.1
     "@testing-library/cypress": ^10.0.1
     "@testing-library/dom": ^9.3.4
-    "@testing-library/jest-dom": ^6.4.1
+    "@testing-library/jest-dom": ^6.4.2
     "@testing-library/react": ^14.2.1
     "@testing-library/user-event": ^14.5.2
-    "@types/babel__core": ^7
     "@types/jest": ^29.5.12
     "@types/node": ^20.11.5
-    "@types/react": ^18.2.53
+    "@types/react": ^18.2.55
     "@types/react-dom": ^18.2.18
     "@types/react-helmet": ^6.1.11
     "@typescript-eslint/eslint-plugin": ^6.20.0

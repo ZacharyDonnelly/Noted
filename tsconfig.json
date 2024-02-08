@@ -1,7 +1,14 @@
 {
-  "exclude": ["node_modules", "**/.next", "cypress"],
+  "exclude": [
+    "node_modules",
+    "**/.next",
+    "cypress",
+    "**/cypress.config.ts",
+    "**/public"
+  ],
   "include": [
     "next-env.d.ts",
+    ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
     "tests",

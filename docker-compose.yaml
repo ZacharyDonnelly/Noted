@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: ./config/docker/Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:

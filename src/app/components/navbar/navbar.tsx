@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
   };
 
   useEffect((): void => {
-    urlHandler(pathname.toLowerCase());
+    urlHandler(pathname);
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
