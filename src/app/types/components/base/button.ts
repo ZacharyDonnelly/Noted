@@ -6,4 +6,5 @@ export interface ButtonProps {
   className?: string;
   children?: ReactNode;
   mask?: boolean;
+  onClick?: () => void;
 }

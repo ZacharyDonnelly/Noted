@@ -28,6 +28,10 @@ nav {
       line-height: 1.8rem;
       cursor: pointer;
 
+      &.username {
+        text-transform: capitalize;
+      }
+
       .nav_button {
         border-radius: $border-radius-md;
         font-size: 1.6rem;

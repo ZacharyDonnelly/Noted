@@ -3,13 +3,16 @@
 import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
 import Input from '@/components/base/input';
+import { useFormRegister } from '@/utils/hooks/useFormRegister';
 
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import './login.scss';
 
 const Login: React.FC = () => {
+  const { register, handleSubmit } = useFormRegister();
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const checkboxHandler = (): void => {
@@ -49,10 +52,10 @@ const Login: React.FC = () => {
         <div className="login_oauth_buttons">
           <p className="continue_with">Or continue with</p>
           <div className="oauth_button_group">
-            <Button className="google_oauth_button" btnText="Google" mask>
+            <Button className="google_oauth_button" btnText="Google" onClick={() => signIn('google')} mask>
               <Image src="/icons/google.svg" width={20} height={20} alt="Sign in with Google" />
             </Button>
-            <Button className="github_oauth_button" btnText="Github" mask>
+            <Button className="github_oauth_button" btnText="Github" onClick={() => signIn('github')} mask>
               <Image src="/icons/github.svg" width={20} height={20} alt="Sign in with Github" />
             </Button>
           </div>

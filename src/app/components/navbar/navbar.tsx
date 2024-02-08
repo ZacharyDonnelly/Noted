@@ -6,14 +6,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import './navbar.scss';
 
 const Navbar: React.FC = () => {
+  const { data: session, status } = useSession();
   const [isHomepage, setIsHomepage] = useState<boolean>(true);
   const [authPage, setAuthPage] = useState<string>('');
   const [isPassedAuth, setIsPassedAuth] = useState<boolean>(false);
   const pathname = usePathname();
+
+  console.log(session, status); // eslint-disable-line no-console
 
   // Refactor this because...well it's hideous
   const stateHandler = (page: string): void => {
@@ -58,16 +62,14 @@ const Navbar: React.FC = () => {
           <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
         </Link>
       </div>
-      {isHomepage ? (
+      {status === 'authenticated' ? (
         <ul className="nav_items">
           <li className="nav_item">
-            <Button className="nav_button">
-              <Link href="/login">Login</Link>
-            </Button>
+            <p className="nav_item username">{session?.user?.name}</p>
           </li>
           <li className="nav_item">
-            <Button className="nav_button create">
-              <Link href="/signup">Sign up</Link>
+            <Button className="nav_button create" onClick={() => signOut()}>
+              Sign out
             </Button>
           </li>
         </ul>

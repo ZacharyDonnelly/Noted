@@ -14,7 +14,8 @@
     "tests",
     "jest.config.ts",
     ".next/types/**/*.ts",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "**/types/**/*.ts"
   ],
   "compilerOptions": {
     "allowJs": true,

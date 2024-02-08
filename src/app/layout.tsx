@@ -1,3 +1,4 @@
+import AuthProvider from '@/components/context/authProvider';
 import Navbar from '@/components/navbar/navbar';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -17,10 +18,14 @@ const RootLayout = ({
   children: ReactNode;
 }>) => (
   <html lang="en">
-    <body className={inter.className}>
-      <Navbar />
-      {children}
-    </body>
+    <AuthProvider>
+      <body className={inter.className}>
+        <main>
+          <Navbar />
+          {children}
+        </main>
+      </body>
+    </AuthProvider>
   </html>
 );
 

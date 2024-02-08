@@ -83,7 +83,10 @@ module.exports = {
         'react/prop-types': 'off',
         '@typescript-eslint/comma-dangle': 'off',
         'import/no-extraneous-dependencies': 'off',
-        '@typescript-eslint/no-var-requires': 'off'
+        '@typescript-eslint/no-var-requires': 'off',
+        'react/jsx-props-no-spreading': 'off',
+        'no-param-reassign': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
       }
     },
     {
@@ -122,4 +125,4 @@ module.exports = {
       }
     }
   ]
-}
+};

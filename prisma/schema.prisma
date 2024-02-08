@@ -7,15 +7,6 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  passwordHash String
-  name  String?
-  posts Post[]
-}
-
 model Post {
   id        Int     @id @default(autoincrement())
   title     String
@@ -23,4 +14,20 @@ model Post {
   published Boolean @default(false)
   author    User    @relation(fields: [authorId], references: [id])
   authorId  Int
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+model User {
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  passwordHash String
+  name         String
+  posts        Post[]
 }
