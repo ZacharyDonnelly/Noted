@@ -3,17 +3,26 @@
 import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
 import Input from '@/components/base/input';
-import { useFormRegister } from '@/utils/hooks/useFormRegister';
-
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import './login.scss';
 
 const Login: React.FC = () => {
-  const { register, handleSubmit } = useFormRegister();
+  const { handleSubmit, register } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
+    signIn('credentials', {
+      email,
+      name,
+      password,
+      confirmPassword,
+      callbackUrl: 'http://localhost:3000/dashboard'
+    });
+  });
 
   const checkboxHandler = (): void => {
     setIsChecked(!isChecked);
@@ -29,12 +38,36 @@ const Login: React.FC = () => {
             </Link>
           </div>
         </header>
-        <form className="login_form">
+        <form className="login_form" onSubmit={() => submitHandler()}>
           <div className="login_form_row">
-            <Input className="login_input" id="email_address" label_text="Email" />
+            <Input
+              className="login_input"
+              id="email_address"
+              label_text="Email"
+              register={register}
+              validationSchema={{
+                required: 'Email address is required',
+                minLength: {
+                  value: 3,
+                  message: 'Please enter a valid email address'
+                }
+              }}
+            />
           </div>
           <div className="login_form_row">
-            <Input className="login_input" id="password" label_text="Password" />
+            <Input
+              className="login_input"
+              id="password"
+              label_text="Password"
+              register={register}
+              validationSchema={{
+                required: 'Password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Please enter a valid password'
+                }
+              }}
+            />
           </div>
           <div className="checkbox_row">
             <Checkbox

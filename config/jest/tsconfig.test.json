@@ -1,23 +1,20 @@
 {
   "exclude": [
     "node_modules",
-    "**/node_modules",
-    "**/.cache/*",
-    "**/.next/*",
     "**/.next",
-    "**/public",
-    "**/cypress",
-    "**/cypress.config.ts"
+    "cypress",
+    "**/cypress.config.ts",
+    "**/public"
   ],
   "include": [
+    "**/next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".eslintrc.js",
-    "**/__mocks__/**/*",
-    "**/tests/**/*",
-    "jest.config.ts",
-    "next-env.d.ts"
+    "**/tests",
+    "**/jest.config.ts",
+    "**/.next/types/**/*.ts",
+    "**/.eslintrc.js",
+    "**/types/**/*.ts"
   ],
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -38,7 +35,8 @@
       }
     ],
     "paths": {
-      "@/*": ["../../src/app/*"]
+      "@/*": ["../../src/app/*"],
+      "@/types/*": ["../../types/*"]
     }
   }
 }

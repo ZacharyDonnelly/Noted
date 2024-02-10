@@ -45,39 +45,43 @@ const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, account, profile }) {
-      // Persist the OAuth access_token and or the user id to the token right after signin
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = profile?.name;
-      }
-
-      return token;
-    },
     async signIn() {
       return true;
     },
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
     async session({ session, token, newSession, trigger }) {
-      // Send properties to the client, like an access_token and user id from a provider.
-      session.user = { name: '', email: '' };
+      session.user = { name: '', email: '', accessToken: '' };
       if (trigger === 'update' && newSession?.name) {
+        session.accessToken = token.jti as string;
         session.user.name = newSession.name;
         session.user.email = newSession.email;
-      } else {
+        session.user.accessToken = token.jti as string;
+      } else if (session.user) {
         session.user.name = token?.name as string;
         session.user.email = token?.email as string;
-        session.accessToken = token.accessToken as string;
+        session.user.accessToken = token.jti as string;
+        session.accessToken = token.jti as string;
       }
-
       return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.name = user.name as string;
+        token.email = user.email as string;
+      }
+      return token;
     }
   },
   adapter: PrismaAdapter(prismadb),
   session: { strategy: 'jwt' },
+  jwt: { secret: process.env.JWT_SECRET },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/api/auth/signup',
     signOut: '/api/auth/signout'
-  }
+  },
+  debug: true
 };
 export default authOptions;

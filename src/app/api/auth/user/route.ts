@@ -1,10 +1,11 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-async function registerUser(name: string, email: string, passwordHash: string, res: { status: any }): Promise<void> {
+async function registerUser(name: string, email: string, passwordHash: string, res: NextApiResponse): Promise<void> {
   const existingUser = await prisma.user.findUnique({ where: { email } });
   let user;
   if (!existingUser) {
@@ -27,16 +28,13 @@ async function registerUser(name: string, email: string, passwordHash: string, r
 }
 
 export const hashPassword = (password: string) => bcrypt.hashSync(password, 10);
-export async function POST(
-  req: Request,
-  res: { status: (arg0: number) => { (): any; new (): any; json: { (arg0: { errors: string[] }): any; new (): any } } }
-) {
-  const { searchParams } = new URL(req.url);
-  const name = searchParams.get('name') as string;
-  const email = searchParams.get('email') as string;
-  const password = searchParams.get('password') as string;
-  const confirmPassword = searchParams.get('confirmPassword') as string;
-  const passwordHash = hashPassword(password);
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
+  const { searchParams }: URL = new URL(req.url as string);
+  const name: string = searchParams.get('name') as string;
+  const email: string = searchParams.get('email') as string;
+  const password: string = searchParams.get('password') as string;
+  const confirmPassword: string = searchParams.get('confirmPassword') as string;
+  const passwordHash: string = hashPassword(password);
 
   try {
     const errors = [];
@@ -60,9 +58,6 @@ export async function POST(
   return NextResponse.json({ email, name, password, confirmPassword, passwordHash });
 }
 
-export async function GET(
-  req: Request,
-  res: { status: (arg0: number) => { (): any; new (): any; json: { (arg0: string): any; new (): any } } }
-) {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   return res.status(400).json('GET STUFFS');
 }

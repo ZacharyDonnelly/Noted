@@ -18,14 +18,14 @@ const RootLayout = ({
   children: ReactNode;
 }>) => (
   <html lang="en">
-    <AuthProvider>
-      <body className={inter.className}>
+    <body className={inter.className}>
+      <AuthProvider>
         <main>
           <Navbar />
           {children}
         </main>
-      </body>
-    </AuthProvider>
+      </AuthProvider>
+    </body>
   </html>
 );
 

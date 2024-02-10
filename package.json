@@ -27,7 +27,7 @@
     "prepare": "node .husky/install.mjs",
     "prisma:test": "npx ts-node --esm ./src/app/utils/prisma/script.ts",
     "prisma:studio": "npx prisma studio",
-    "test": "jest",
+    "test": "node --experimental-vm-modules $(yarn bin jest)",
     "typecheck": "tsc --noEmit",
     "type-check:watch": "yarn type-check -- --watch",
     "cy:open:dev": "CYPRESS_STAGE=dev CYPRESS_BASE_URL=http://localhost:8000 cypress open",

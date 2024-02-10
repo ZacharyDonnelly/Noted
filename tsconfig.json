@@ -8,14 +8,13 @@
   ],
   "include": [
     "next-env.d.ts",
-    ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
     "tests",
     "jest.config.ts",
     ".next/types/**/*.ts",
     ".eslintrc.js",
-    "**/types/**/*.ts"
+    "types/**/*.ts"
   ],
   "compilerOptions": {
     "allowJs": true,
@@ -33,7 +32,8 @@
     "strict": true,
     "strictNullChecks": true,
     "paths": {
-      "@/*": ["./src/app/*"]
+      "@/*": ["./src/app/*"],
+      "@/types/*": ["./types/*"]
     },
     "plugins": [
       {

@@ -2,16 +2,17 @@
 
 import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
-import { useFormRegister } from '@/utils/hooks/useFormRegister';
+import Input from '@/components/base/input';
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import './signup.scss';
 
 const Signup: React.FC = () => {
-  const { register, handleSubmit } = useFormRegister();
+  const { register, handleSubmit } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const signInHandler = (name: string, email: string, password: string, confirmPassword: string) => {
@@ -64,37 +65,64 @@ const Signup: React.FC = () => {
         </header>
         <form className="signup_form" onSubmit={() => submitHandler()}>
           <div className="signup_form_row">
-            {/* <Input
+            <Input
+              className="signup_input"
+              id="full_name"
+              label_text="Full Name"
+              register={register}
+              validationSchema={{
+                required: 'Name is required',
+                minLength: {
+                  value: 3,
+                  message: 'Please enter a valid name'
+                }
+              }}
+            />
+          </div>
+          <div className="signup_form_row">
+            <Input
               className="signup_input"
               id="email_address"
               label_text="Email"
-            /> */}
-            <input type="text" {...register('name', { required: true })} />
+              register={register}
+              validationSchema={{
+                required: 'Email address is required',
+                minLength: {
+                  value: 3,
+                  message: 'Please enter a valid email address'
+                }
+              }}
+            />
           </div>
           <div className="signup_form_row">
-            {/* <Input
-              className="signup_input"
-              id="email_address"
-              label_text="Email"
-            /> */}
-            <input type="text" {...register('email', { required: true })} />
-          </div>
-          <div className="signup_form_row">
-            {/* <Input
+            <Input
               className="signup_input"
               id="password"
               label_text="Password"
-              {...register('password', { required: true })}
-            /> */}
-            <input type="password" {...register('password', { required: true })} />
+              register={register}
+              validationSchema={{
+                required: 'Password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Please enter a valid password'
+                }
+              }}
+            />
           </div>
           <div className="signup_form_row">
-            {/* <Input
+            <Input
               className="signup_input"
               id="confirm_password"
               label_text="Confirm Password"
-            /> */}
-            <input type="password" {...register('confirmPassword', { required: true })} />
+              register={register}
+              validationSchema={{
+                required: 'Confirm password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Please enter a matching password'
+                }
+              }}
+            />
           </div>
           <div className="checkbox_row">
             <Checkbox

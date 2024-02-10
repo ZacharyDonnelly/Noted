@@ -15,7 +15,7 @@ const Dashboard = () => {
       {isAuthenticated && (
         <section className="dashboard">
           <header className="dashboard_header">
-            <h1>Dashboard for - {session?.user.name}</h1>
+            <h1>Dashboard for - {session?.user && session.user?.name}</h1>
           </header>
         </section>
       )}

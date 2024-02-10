@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
             <p className="nav_item username">{session?.user?.name}</p>
           </li>
           <li className="nav_item">
-            <Button className="nav_button create" onClick={() => signOut()}>
+            <Button className="nav_button create" onClick={() => signOut && signOut()}>
               Sign out
             </Button>
           </li>
