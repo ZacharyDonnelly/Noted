@@ -11,15 +11,13 @@ declare module 'next-auth' {
     signOut?: () => void;
     signIn?: () => void;
     status?: string;
-    user: {
-      accessToken?: string;
-    } & DefaultSession['user'];
+    user: User & DefaultUser['user'];
   }
 
   interface User {
-    email?: string;
-    name?: string;
-    accessToken?: string;
+    email?: string | undefined;
+    name?: string | undefined;
+    accessToken?: string | undefined;
   }
 }
 
