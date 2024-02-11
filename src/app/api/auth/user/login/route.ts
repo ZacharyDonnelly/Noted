@@ -8,8 +8,14 @@ const prisma = new PrismaClient();
 async function registerUser(emailAddress: string, passwordHash: string, res: NextApiResponse): Promise<void> {
   try {
     const hashCompare = await bcrypt.compare('password', passwordHash);
+
     console.log(`COMPARE_HASH: ${hashCompare}`); // eslint-disable-line no-console
+
     const existingUser = await prisma.user.findUnique({ where: { email: emailAddress } });
+
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
     return res.status(201).json({ existingUser });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -22,13 +28,15 @@ async function registerUser(emailAddress: string, passwordHash: string, res: Nex
   return res.status(201).json({ message: 'User created' });
 }
 
-export const hashPassword = (password: string) => bcrypt.hashSync(password, 10);
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { emailAddress } = req.body;
-  const { password } = req.body;
-  const passwordHash: string = hashPassword(password);
+export const hashPassword = (password: string): string => bcrypt.hashSync(password, 10);
+export async function POST(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<NextResponse<{ emailAddress: string; password: string }>> {
+  const { emailAddress, password } = req.body;
 
   try {
+    const passwordHash: string = hashPassword(password);
     await registerUser(emailAddress, passwordHash, res);
   } catch (e) {
     console.error('error', e);
@@ -38,6 +46,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
   return NextResponse.json({ emailAddress, password });
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  return res.status(400).json('GET STUFFS');
+export async function GET(req: NextApiRequest, res: NextApiResponse): Promise<NextApiResponse<number>> {
+  return res.status(400);
 }

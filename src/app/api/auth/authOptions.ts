@@ -1,7 +1,8 @@
 import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import axios from 'axios';
-import { AuthOptions } from 'next-auth';
+import { AuthOptions, DefaultSession, Session } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
@@ -57,7 +58,7 @@ const authOptions: AuthOptions = {
         email: { label: 'Email Address', type: 'email', required: true },
         password: { label: 'Password', type: 'password', required: true }
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         if (!credentials) return null;
         const { email, password } = credentials;
         try {
@@ -85,31 +86,33 @@ const authOptions: AuthOptions = {
     })
   ],
   callbacks: {
-    async signIn() {
+    async signIn(): Promise<boolean> {
       return true;
     },
-    async redirect({ baseUrl }) {
+    async redirect({ baseUrl }): Promise<string> {
       return baseUrl;
     },
-    async session({ session, token, newSession, trigger }) {
+    async session({ session, token, newSession, trigger }): Promise<Session | DefaultSession> {
+      // console.log(`TOKENNN1 ${JSON.stringify(token)}`);
       session.user = { name: '', email: '', accessToken: '' };
       if (trigger === 'update' && newSession?.name) {
-        session.accessToken = token.jti as string;
+        session.accessToken = token.jti || '';
         session.user.name = newSession.name;
         session.user.email = newSession.email;
-        session.user.accessToken = token.jti as string;
+        session.user.accessToken = token.jti || '';
       } else if (session.user) {
-        session.user.name = token?.name as string;
-        session.user.email = token?.email as string;
-        session.user.accessToken = token.jti as string;
-        session.accessToken = token.jti as string;
+        session.user.name = token?.name || '';
+        session.user.email = token?.email || '';
+        session.user.accessToken = token.jti || '';
+        session.accessToken = token.jti || '';
       }
+
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.name = user.name as string;
-        token.email = user.email as string;
+        token.name = user.name || '';
+        token.email = user.email || '';
       }
       return token;
     }
@@ -124,4 +127,5 @@ const authOptions: AuthOptions = {
   },
   debug: true
 };
+
 export default authOptions;
