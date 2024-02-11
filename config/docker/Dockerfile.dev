@@ -1,5 +1,5 @@
 # Stage 1 - Build
-FROM node:hydrogen-alpine3.18 as build
+FROM node:iron-alpine3.18 as build
 
 # Set up working directory
 RUN mkdir -p /usr/src/app
@@ -26,7 +26,7 @@ COPY . .
 RUN yarn build
 
 # Stage 2 - Run
-FROM node:hydrogen-alpine3.18
+FROM node:iron-alpine3.18
 
 # Copy the build artifacts from the builder stage
 COPY --from=build /usr/src/app/next.config.mjs ./
