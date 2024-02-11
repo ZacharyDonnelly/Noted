@@ -30,14 +30,8 @@ const authOptions: AuthOptions = {
         if (!credentials) return null;
         const { name, email, password, confirmPassword } = credentials;
         try {
-          const { data } = await axios.post(
-            'http://localhost:3000/api/auth/user',
-            {
-              name,
-              email,
-              password,
-              confirmPassword
-            },
+          const data = await axios.post(
+            `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
             {
               headers: {
                 'Content-Type': 'application/json'
@@ -62,12 +56,8 @@ const authOptions: AuthOptions = {
         if (!credentials) return null;
         const { email, password } = credentials;
         try {
-          const { data } = await axios.post(
-            'http://localhost:3000/api/auth/user/login',
-            {
-              email,
-              password
-            },
+          const data = await axios.post(
+            `http://localhost:3000/api/auth/user/login?email=${email}&password=${password}`,
             {
               headers: {
                 'Content-Type': 'application/json'

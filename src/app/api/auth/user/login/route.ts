@@ -5,7 +5,11 @@ import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-async function registerUser(emailAddress: string, passwordHash: string, res: NextApiResponse): Promise<void> {
+async function registerUser(
+  emailAddress: string,
+  passwordHash: string,
+  res: NextApiResponse
+): Promise<NextResponse<any>> {
   try {
     const hashCompare = await bcrypt.compare('password', passwordHash);
 
@@ -14,36 +18,37 @@ async function registerUser(emailAddress: string, passwordHash: string, res: Nex
     const existingUser = await prisma.user.findUnique({ where: { email: emailAddress } });
 
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+      return NextResponse.json({ message: 'User already exists' }, { status: 400 });
     }
-    return res.status(201).json({ existingUser });
+    return NextResponse.json({ existingUser }, { status: 201 });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === 'P2002') {
-        return res.status(400).json({ message: e.message });
+        return NextResponse.json({ message: e.message }, { status: 400 });
       }
-      return res.status(400).json({ message: e.message });
+      return NextResponse.json({ message: e.message }, { status: 400 });
     }
   }
-  return res.status(201).json({ message: 'User created' });
+  return NextResponse.json({ message: 'User created' }, { status: 201 });
 }
 
-export const hashPassword = (password: string): string => bcrypt.hashSync(password, 10);
 export async function POST(
   req: NextApiRequest,
   res: NextApiResponse
-): Promise<NextResponse<{ emailAddress: string; password: string }>> {
-  const { emailAddress, password } = req.body;
+): Promise<NextResponse<{ email: string; passwordHash: string }>> {
+  const { searchParams }: URL = new URL(req.url as string);
+  const email: string = searchParams.get('email') as string;
+  const password: string = searchParams.get('password') as string;
+  const passwordHash: string = bcrypt.hashSync(password, 10);
 
   try {
-    const passwordHash: string = hashPassword(password);
-    await registerUser(emailAddress, passwordHash, res);
+    await registerUser(email, passwordHash, res);
   } catch (e) {
     console.error('error', e);
     throw new Error(`Error registering user: ${e}`);
   }
 
-  return NextResponse.json({ emailAddress, password });
+  return NextResponse.json({ email, passwordHash }, { status: 201 });
 }
 
 export async function GET(req: NextApiRequest, res: NextApiResponse): Promise<NextApiResponse<number>> {

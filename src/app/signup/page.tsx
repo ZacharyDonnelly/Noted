@@ -33,13 +33,7 @@ const Signup: React.FC = () => {
   const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
     try {
       const data = await axios.post(
-        'http://localhost:3000/api/auth/user',
-        {
-          name,
-          email,
-          password,
-          confirmPassword
-        },
+        `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
         {
           headers: {
             'Content-Type': 'application/json'

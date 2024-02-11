@@ -1,8 +1,6 @@
 'use client';
 
-import Button from '@/components/base/button';
-import Checkbox from '@/components/base/checkbox';
-import Input from '@/components/base/input';
+import { Button, Checkbox, Input } from '@/components/base';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,8 +11,6 @@ import './login.scss';
 const Login: React.FC = () => {
   const { handleSubmit, register } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
-
-  // const signInHandler = (email: string, password: string) => {};
 
   const submitHandler = handleSubmit(async ({ email, password }) => {
     try {
