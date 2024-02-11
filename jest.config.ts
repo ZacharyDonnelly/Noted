@@ -1,6 +1,6 @@
 import path from 'path';
 
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+// /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 const jestConfigOptions = {
   testEnvironment: 'jsdom',
   preset: 'ts-jest',

@@ -5,13 +5,18 @@ import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-async function registerUser(name: string, email: string, passwordHash: string, res: NextApiResponse): Promise<void> {
-  const existingUser = await prisma.user.findUnique({ where: { email } });
+async function registerUser(
+  name: string,
+  emailAddress: string,
+  passwordHash: string,
+  res: NextApiResponse
+): Promise<void> {
+  const existingUser = await prisma.user.findUnique({ where: { email: emailAddress } });
   let user;
   if (!existingUser) {
     try {
       user = await prisma.user.create({
-        data: { name, email, passwordHash }
+        data: { name, email: emailAddress, passwordHash }
       });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -29,12 +34,10 @@ async function registerUser(name: string, email: string, passwordHash: string, r
 
 export const hashPassword = (password: string) => bcrypt.hashSync(password, 10);
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { searchParams }: URL = new URL(req.url as string);
-  const name: string = searchParams.get('name') as string;
-  const email: string = searchParams.get('email') as string;
-  const password: string = searchParams.get('password') as string;
-  const confirmPassword: string = searchParams.get('confirmPassword') as string;
-  const passwordHash: string = hashPassword(password);
+  const { name } = req.body;
+  const { email } = req.body;
+  const { password } = req.body;
+  const { confirmPassword } = req.body;
 
   try {
     const errors = [];
@@ -45,6 +48,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (password === confirmPassword) {
+      const passwordHash: string = hashPassword(password);
       await registerUser(name, email, passwordHash, res);
     } else {
       errors.push('passwords do not match');
@@ -55,7 +59,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     console.error('error', e);
   }
 
-  return NextResponse.json({ email, name, password, confirmPassword, passwordHash });
+  return NextResponse.json({ email, name, password });
 }
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {

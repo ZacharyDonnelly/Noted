@@ -14,19 +14,25 @@ const Login: React.FC = () => {
   const { handleSubmit, register } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
-    signIn('credentials', {
-      email,
-      name,
-      password,
-      confirmPassword,
-      callbackUrl: 'http://localhost:3000/dashboard'
-    });
+  // const signInHandler = (email: string, password: string) => {};
+
+  const submitHandler = handleSubmit(async ({ email, password }) => {
+    try {
+      signIn('domain-login', {
+        email,
+        password,
+        callbackUrl: 'http://localhost:3000/dashboard'
+      });
+    } catch (error) {
+      console.error(`Error logging in: ${error}`);
+      throw new Error(`Error logging in: ${error}`);
+    }
   });
 
   const checkboxHandler = (): void => {
     setIsChecked(!isChecked);
   };
+
   return (
     <section className="login">
       <div className="login_wrapper">
@@ -41,9 +47,10 @@ const Login: React.FC = () => {
         <form className="login_form" onSubmit={() => submitHandler()}>
           <div className="login_form_row">
             <Input
+              type="email"
               className="login_input"
-              id="email_address"
-              label_text="Email"
+              id="email"
+              label_text="Email Address"
               register={register}
               validationSchema={{
                 required: 'Email address is required',
@@ -56,6 +63,7 @@ const Login: React.FC = () => {
           </div>
           <div className="login_form_row">
             <Input
+              type="password"
               className="login_input"
               id="password"
               label_text="Password"
@@ -78,8 +86,8 @@ const Login: React.FC = () => {
               checked={isChecked}
             />
           </div>
-          <Button className="login_button">
-            <Link href="/dashboard">Log in</Link>
+          <Button className="login_button" onClick={() => submitHandler()}>
+            Log in
           </Button>
         </form>
         <div className="login_oauth_buttons">

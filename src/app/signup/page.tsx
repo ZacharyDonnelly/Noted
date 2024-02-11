@@ -12,32 +12,46 @@ import { useForm } from 'react-hook-form';
 import './signup.scss';
 
 const Signup: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const { handleSubmit, register } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const signInHandler = (name: string, email: string, password: string, confirmPassword: string) => {
-    signIn('credentials', {
-      email,
-      name,
-      password,
-      confirmPassword,
-      callbackUrl: 'http://localhost:3000/dashboard'
-    });
+    if (password === confirmPassword) {
+      signIn('domain-signup', {
+        name,
+        email,
+        password,
+        confirmPassword,
+        callbackUrl: 'http://localhost:3000/dashboard'
+      });
+    } else {
+      console.error('Passwords do not match');
+      throw new Error('Passwords do not match');
+    }
   };
 
   const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
-    const data = await axios.post(
-      `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
-      {
-        headers: {
-          'Content-Type': 'application/json'
+    try {
+      const data = await axios.post(
+        'http://localhost:3000/api/auth/user',
+        {
+          name,
+          email,
+          password,
+          confirmPassword
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
+      );
+      if (data.status === 200) {
+        signInHandler(name, email, password, confirmPassword);
       }
-    );
-    if (data.status === 200) {
-      signInHandler(name, email, password, confirmPassword);
-    } else {
-      console.error('failed');
+    } catch (error) {
+      console.error(`Error logging in: ${error}`);
+      throw new Error(`Error logging in: ${error}`);
     }
   });
 
@@ -66,9 +80,10 @@ const Signup: React.FC = () => {
         <form className="signup_form" onSubmit={() => submitHandler()}>
           <div className="signup_form_row">
             <Input
+              type="text"
               className="signup_input"
-              id="full_name"
-              label_text="Full Name"
+              id="name"
+              label_text="Name"
               register={register}
               validationSchema={{
                 required: 'Name is required',
@@ -81,9 +96,10 @@ const Signup: React.FC = () => {
           </div>
           <div className="signup_form_row">
             <Input
+              type="email"
               className="signup_input"
-              id="email_address"
-              label_text="Email"
+              id="email"
+              label_text="Email address"
               register={register}
               validationSchema={{
                 required: 'Email address is required',
@@ -96,6 +112,7 @@ const Signup: React.FC = () => {
           </div>
           <div className="signup_form_row">
             <Input
+              type="password"
               className="signup_input"
               id="password"
               label_text="Password"
@@ -111,8 +128,9 @@ const Signup: React.FC = () => {
           </div>
           <div className="signup_form_row">
             <Input
+              type="password"
               className="signup_input"
-              id="confirm_password"
+              id="confirmPassword"
               label_text="Confirm Password"
               register={register}
               validationSchema={{

@@ -17,30 +17,70 @@ const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET as string
     }),
     CredentialsProvider({
-      id: 'credentials',
+      id: 'domain-signup',
       name: 'Credentials',
       credentials: {
-        name: { label: 'Name', type: 'string' },
+        name: { label: 'Name', type: 'text' },
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
         confirmPassword: { label: 'Confirm Password', type: 'password' }
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         if (!credentials) return null;
         const { name, email, password, confirmPassword } = credentials;
-
-        const { data } = await axios.post(
-          `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
-          {
-            headers: {
-              'Content-Type': 'application/json'
+        try {
+          const { data } = await axios.post(
+            'http://localhost:3000/api/auth/user',
+            {
+              name,
+              email,
+              password,
+              confirmPassword
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
             }
-          }
-        );
-        if (data) {
-          return data;
+          );
+          return { data, name, email, password, confirmPassword };
+        } catch (error) {
+          console.error(`Error logging in: ${error}`);
+          throw new Error(`Error logging in: ${error}`);
         }
-        return null;
+      }
+    }),
+    CredentialsProvider({
+      id: 'domain-login',
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email Address', type: 'email', required: true },
+        password: { label: 'Password', type: 'password', required: true }
+      },
+      async authorize(credentials) {
+        if (!credentials) return null;
+        const { email, password } = credentials;
+        try {
+          const { data } = await axios.post(
+            'http://localhost:3000/api/auth/user/login',
+            {
+              email,
+              password
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+          if (data) {
+            return data;
+          }
+        } catch (error) {
+          console.error(`Error logging in: ${error}`);
+          throw new Error(`Error logging in: ${error}`);
+        }
+        return { email, password };
       }
     })
   ],
