@@ -102,7 +102,7 @@
     "typescript": "^5.3.3"
   },
   "resolutions": {
-    "caniuse-lite": "1.0.30001585"
+    "caniuse-lite": "1.0.30001587"
   },
   "packageManager": "yarn@4.1.0",
   "engines": {
