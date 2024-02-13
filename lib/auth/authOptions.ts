@@ -7,7 +7,7 @@ import type {
   Session,
   SessionProps
 } from '@/types/api/callbacks';
-import { LocalUser } from '@/types/index';
+import { LocalUser } from '@/types/user';
 import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Prisma, PrismaClient } from '@prisma/client';

@@ -6,16 +6,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FC } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm, type FieldValues } from 'react-hook-form';
 import './login.scss';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const Login: FC = () => {
   const { status } = useSession();
   const { handleSubmit, register } = useForm<FieldValues, string, FieldValues>();
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const isAuthenticated: boolean = status === 'authenticated';
-  // const isNotAuthenticated: boolean = status === 'unauthenticated';
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
 
   useEffect((): void => {
     if (isAuthenticated) {

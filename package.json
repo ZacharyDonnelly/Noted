@@ -43,7 +43,7 @@
     "cy:open:dev": "CYPRESS_STAGE=dev CYPRESS_BASE_URL=http://localhost:8000 cypress open",
     "cy:run": "cypress run",
     "dev": "next dev",
-    "dev:server": "nodemon",
+    "dev:server": "nodemon --config ./config/server/nodemon.json",
     "format:all": "npm-run-all format:js format:styles",
     "format:js": "prettier 'src/app/*.{js,jsx,ts,tsx}' --write",
     "format:styles": "prettier 'src/app/styles/*.css' --write",

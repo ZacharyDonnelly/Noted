@@ -4,16 +4,28 @@ import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
 import Input from '@/components/base/input';
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, type FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, type FC } from 'react';
+import { useForm, type FieldValues } from 'react-hook-form';
+
 import './signup.scss';
 
 const Signup: FC = () => {
-  const { handleSubmit, register } = useForm();
+  const { status } = useSession();
+  const { handleSubmit, register } = useForm<FieldValues, string, FieldValues>();
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const isAuthenticated: boolean = status === 'authenticated';
+  const router: AppRouterInstance = useRouter();
+
+  useEffect((): void => {
+    if (isAuthenticated) {
+      router.back();
+    }
+  }, [isAuthenticated, status, router]);
 
   const signInHandler = (name: string, email: string, password: string, confirmPassword: string) => {
     if (password === confirmPassword) {

@@ -1,8 +1,7 @@
-// @ts-check
-import withMDX from '@next/mdx';
+const withMDX = require('@next/mdx')();
 
 /** @type {import('next').NextConfig & import('@next/mdx').NextMDXOptions} */
-const nextConfig = {
+const nextConfig = withMDX({
   reactStrictMode: true,
   trailingSlash: true,
   pageExtensions: ['js', 'mdx', 'ts', 'tsx'],
@@ -12,6 +11,5 @@ const nextConfig = {
   experimental: {
     mdxRs: true
   }
-};
-
-export default withMDX(nextConfig);
+});
+module.exports = nextConfig;
