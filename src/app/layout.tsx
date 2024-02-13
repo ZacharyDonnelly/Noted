@@ -1,12 +1,12 @@
-import SessionProvider from '@/components/context/SessionProvider';
+import AuthProvider from '@/components/context/authProvider';
 import Navbar from '@/components/navbar/navbar';
-import { Metadata, Viewport } from 'next';
-import { getServerSession } from 'next-auth';
+import type { Metadata, Viewport } from 'next';
+import type { NextFont } from 'next/dist/compiled/@next/font';
 import { Inter } from 'next/font/google';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import './styles/globals.scss';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter: NextFont = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
@@ -66,34 +66,24 @@ export const metadata: Metadata = {
   ]
 };
 
-// export const metadata: Metadata = {
-//   title: 'Notebook',
-//   description: 'Notebook by Zach Donnelly'
-// };
-
 export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false
+  width: 'device-width'
 };
 
-export default async function RootLayout({
+const RootLayout = ({
   children
 }: Readonly<{
   children: ReactNode;
-}>) {
-  const session = await getServerSession();
-  return (
-    <html lang="en">
+}>) => (
+  <html lang="en">
+    <AuthProvider>
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <main>
-            <Navbar />
-            {children}
-          </main>
-        </SessionProvider>
+        <main>
+          <Navbar />
+          {children}
+        </main>
       </body>
-    </html>
-  );
-}
+    </AuthProvider>
+  </html>
+);
+export default RootLayout;

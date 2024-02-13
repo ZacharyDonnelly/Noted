@@ -7,11 +7,11 @@ import axios from 'axios';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, type FC } from 'react';
 import { useForm } from 'react-hook-form';
 import './signup.scss';
 
-const Signup: React.FC = () => {
+const Signup: FC = () => {
   const { handleSubmit, register } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -21,7 +21,6 @@ const Signup: React.FC = () => {
         name,
         email,
         password,
-        confirmPassword,
         callbackUrl: 'http://localhost:3000/dashboard'
       });
     } else {
@@ -34,6 +33,12 @@ const Signup: React.FC = () => {
     try {
       const data = await axios.post(
         `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
+        {
+          name,
+          email,
+          password,
+          confirmPassword
+        },
         {
           headers: {
             'Content-Type': 'application/json'

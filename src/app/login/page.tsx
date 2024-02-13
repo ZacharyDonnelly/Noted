@@ -4,11 +4,11 @@ import { Button, Checkbox, Input } from '@/components/base';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, type FC } from 'react';
 import { useForm } from 'react-hook-form';
 import './login.scss';
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const { handleSubmit, register } = useForm();
   const [isChecked, setIsChecked] = useState<boolean>(false);
 

@@ -1,15 +1,22 @@
 'use client';
 
+import type { ClientSessionType } from '@/types/hooks/ClientSessionType';
 import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+import { useEffect, type FC } from 'react';
 import './dashboard.scss';
 
-const Dashboard = () => {
-  const { data: session, status } = useSession();
-  const isAuthenticated = status === 'authenticated';
-  const isNotAuthenticated = status === 'unauthenticated';
-  if (isNotAuthenticated) {
-    window.location.href = 'http://localhost:3000/signup';
-  }
+const Dashboard: FC = () => {
+  const { data: session, status }: ClientSessionType = useSession();
+  const isAuthenticated: boolean = status === 'authenticated';
+  const isNotAuthenticated: boolean = status === 'unauthenticated';
+
+  useEffect(() => {
+    if (isNotAuthenticated) {
+      redirect('/signup');
+    }
+  }, [status, isNotAuthenticated]);
+
   return (
     <div>
       {isAuthenticated && (

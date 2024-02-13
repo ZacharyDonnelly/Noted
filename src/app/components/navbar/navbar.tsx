@@ -17,7 +17,9 @@ const Navbar: React.FC = () => {
   const [isPassedAuth, setIsPassedAuth] = useState<boolean>(false);
   const pathname = usePathname();
 
-  console.log(session, status); // eslint-disable-line no-console
+  if (session && status) {
+    console.log(JSON.parse(JSON.stringify(session)), status); // eslint-disable-line no-console
+  }
 
   // Refactor this because...well it's hideous
   const stateHandler = (page: string): void => {
