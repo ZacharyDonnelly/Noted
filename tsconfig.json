@@ -1,20 +1,25 @@
 {
-  "exclude": ["node_modules", "cypress", "**/cypress.config.ts", "**/public"],
+  "exclude": [
+    "node_modules",
+    "cypress",
+    "cypress/cypress.config.ts",
+    "**/public"
+  ],
   "include": [
-    "./next-env.d.ts",
-    "./types/next-auth.d.ts",
+    "next-env.d.ts",
+    "types/**/*",
+    "types/next-auth.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "./tests",
-    "./types",
+    "tests",
     "jest.config.ts",
     ".next/types/**/*.ts",
     "./.eslintrc.js",
-    "**/types/**/*.d.ts",
-    "**/types/**/*.ts"
+    "next.config.ts"
   ],
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": "./",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -28,10 +33,10 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "typeRoots": ["./types/**/*.ts", "./types/**/*.d.ts", "**/next-auth.d.ts"],
+    "typeRoots": ["types/**/*.ts", "types/**/*.d.ts", "types/next-auth.d.ts"],
     "paths": {
-      "@/*": ["./src/app/*"],
-      "@/types/*": ["./types/*"]
+      "@/*": ["src/app/*"],
+      "@/types/*": ["types/*"]
     },
     "plugins": [
       {

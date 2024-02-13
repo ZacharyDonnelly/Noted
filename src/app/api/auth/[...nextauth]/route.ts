@@ -87,10 +87,12 @@ const handler: AuthOptions = NextAuth({
             const isValid: boolean = bcrypt.compareSync(password, existingUser.passwordHash);
 
             if (isValid) {
-              const newUser: Pick<LocalUser, 'email' | 'passwordHash'> = {
-                email,
+              const newUser: Pick<LocalUser, 'email' | 'passwordHash' | 'name'> = {
+                name: existingUser.name,
+                email: existingUser.email,
                 passwordHash: existingUser.passwordHash
               };
+
               return Promise.resolve(newUser);
             }
           }
@@ -144,10 +146,10 @@ const handler: AuthOptions = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/api/auth/signin',
-    signOut: '/api/auth/signout',
+    signOut: '/api/auth/signin',
     error: '/api/auth/error',
     verifyRequest: '/api/auth/signin'
   }
 });
 
-export { handler as GET, handler as POST, handler as signIn };
+export { handler as GET, handler as POST, handler as signIn, handler as signOut };

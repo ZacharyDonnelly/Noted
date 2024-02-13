@@ -25,6 +25,7 @@ const registerUser = async (name: string, email: string, passwordHash: string): 
     user = await prisma.user.create({
       data: { name, email, passwordHash }
     });
+    NextResponse.redirect('/dashboard', 201);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
@@ -34,7 +35,8 @@ const registerUser = async (name: string, email: string, passwordHash: string): 
     }
     return Response.json({ message: 'User already exists' }, { status: 401 });
   }
-  return Response.json({ name, email }, { status: 201 });
+  // NextResponse.redirect('/dashboard', 201);
+  return NextResponse.json({ name, email }, { status: 200 });
 };
 
 export async function POST(req: NextApiRequest): Promise<Response> {
