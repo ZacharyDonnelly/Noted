@@ -103,8 +103,8 @@
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@types/react-helmet": "^6.1.11",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
     "babel-jest": "^29.7.0",
     "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
@@ -164,7 +164,7 @@
   },
   "packageManager": "yarn@4.1.0",
   "resolutions": {
-    "caniuse-lite": "1.0.30001585"
+    "caniuse-lite": "1.0.30001587"
   },
   "scriptlint": {
     "strict": true,
