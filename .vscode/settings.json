@@ -13,9 +13,9 @@
   "git.fetchOnPull": true,
   // !MISC------------------------------------
   "json.format.enable": true,
-  "jest.autoRun": "off", // disable run tests on startup
+  "jest.runMode": "deferred", // disable run tests on startup
   // !TYPESCRIPT------------------------------
-  "typescript.tsdk": "node_modules\\typescript\\",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   // !STYLELINT-------------------------------
   "stylelint.enable": true,

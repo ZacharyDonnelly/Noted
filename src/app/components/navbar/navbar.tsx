@@ -6,7 +6,6 @@ import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { NextResponse } from 'next/server';
 import { useEffect, useState, type FC } from 'react';
 import './navbar.scss';
 
@@ -22,8 +21,7 @@ const Navbar: FC = () => {
   }
 
   const handleSignOut = (): void => {
-    signOut();
-    NextResponse.redirect('/login');
+    signOut({ callbackUrl: '/login' });
   };
 
   // Refactor this because...well it's hideous

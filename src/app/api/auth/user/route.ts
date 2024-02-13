@@ -1,3 +1,4 @@
+import rateLimit from '@/utils/api/rate-limit';
 import getURLParams from '@/utils/helpers/getURLParameters';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
@@ -12,9 +13,19 @@ type User = {
   name: string;
 } | null;
 
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500 // Max 500 users per second
+});
+
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
-const registerUser = async (name: string, email: string, passwordHash: string): Promise<Response> => {
+const registerUser = async (
+  name: string,
+  email: string,
+  passwordHash: string,
+  res: NextApiResponse
+): Promise<Response> => {
   let user: User = { email, passwordHash, name };
   const existingUser: User = await prisma.user.findUnique({ where: { email } });
 
@@ -22,6 +33,7 @@ const registerUser = async (name: string, email: string, passwordHash: string): 
     return Response.json({ message: 'User already exists' }, { status: 400 });
   }
   try {
+    await limiter.check(res, 10, 'CACHE_TOKEN');
     user = await prisma.user.create({
       data: { name, email, passwordHash }
     });
@@ -39,7 +51,7 @@ const registerUser = async (name: string, email: string, passwordHash: string): 
   return NextResponse.json({ name, email }, { status: 200 });
 };
 
-export async function POST(req: NextApiRequest): Promise<Response> {
+export async function POST(req: NextApiRequest, res: NextApiResponse): Promise<Response> {
   const url: string = req.url as string;
 
   const name: string = getURLParams('name', url);
@@ -51,7 +63,7 @@ export async function POST(req: NextApiRequest): Promise<Response> {
     return Response.json({ message: 'Password is not at least 6 characters' }, { status: 400 });
   }
   try {
-    await registerUser(name, email, passwordHash);
+    await registerUser(name, email, passwordHash, res);
   } catch (error) {
     return Response.json({ message: 'Error creating user', error }, { status: 400 });
   } finally {

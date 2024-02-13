@@ -1,15 +1,16 @@
-import type { NextMDXOptions } from '@next/mdx';
+// @ts-check
 import withMDX from '@next/mdx';
-import type { NextConfig } from 'next/types';
 
-interface LocalNextConfig extends NextConfig, NextMDXOptions {}
-
-const nextConfig: LocalNextConfig = {
+/** @type {import('next').NextConfig & import('@next/mdx').NextMDXOptions} */
+const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   pageExtensions: ['js', 'mdx', 'ts', 'tsx'],
   sassOptions: {
     includePaths: ['./src/app/styles/**']
+  },
+  experimental: {
+    mdxRs: true
   }
 };
 
