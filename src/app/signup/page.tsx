@@ -4,16 +4,28 @@ import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
 import Input from '@/components/base/input';
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, type FC } from 'react';
+import { useForm, type FieldValues } from 'react-hook-form';
+
 import './signup.scss';
 
-const Signup: React.FC = () => {
-  const { handleSubmit, register } = useForm();
+const Signup: FC = () => {
+  const { status } = useSession();
+  const { handleSubmit, register } = useForm<FieldValues, string, FieldValues>();
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const isAuthenticated: boolean = status === 'authenticated';
+  const router: AppRouterInstance = useRouter();
+
+  useEffect((): void => {
+    if (isAuthenticated) {
+      router.back();
+    }
+  }, [isAuthenticated, status, router]);
 
   const signInHandler = (name: string, email: string, password: string, confirmPassword: string) => {
     if (password === confirmPassword) {
@@ -21,7 +33,6 @@ const Signup: React.FC = () => {
         name,
         email,
         password,
-        confirmPassword,
         callbackUrl: 'http://localhost:3000/dashboard'
       });
     } else {
@@ -33,7 +44,7 @@ const Signup: React.FC = () => {
   const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
     try {
       const data = await axios.post(
-        'http://localhost:3000/api/auth/user',
+        `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
         {
           name,
           email,

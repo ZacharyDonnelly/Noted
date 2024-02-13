@@ -1,20 +1,27 @@
 'use client';
 
-import Button from '@/components/base/button';
-import Checkbox from '@/components/base/checkbox';
-import Input from '@/components/base/input';
-import { signIn } from 'next-auth/react';
+import { Button, Checkbox, Input } from '@/components/base';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, type FC } from 'react';
+import { useForm, type FieldValues } from 'react-hook-form';
 import './login.scss';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-const Login: React.FC = () => {
-  const { handleSubmit, register } = useForm();
+const Login: FC = () => {
+  const { status } = useSession();
+  const { handleSubmit, register } = useForm<FieldValues, string, FieldValues>();
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const isAuthenticated: boolean = status === 'authenticated';
+  const router: AppRouterInstance = useRouter();
 
-  // const signInHandler = (email: string, password: string) => {};
+  useEffect((): void => {
+    if (isAuthenticated) {
+      router.back();
+    }
+  }, [isAuthenticated, status, router]);
 
   const submitHandler = handleSubmit(async ({ email, password }) => {
     try {

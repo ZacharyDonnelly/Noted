@@ -1,55 +1,74 @@
+import rateLimit from '@/utils/api/rate-limit';
+import getURLParams from '@/utils/helpers/getURLParameters';
 import { Prisma, PrismaClient } from '@prisma/client';
+import type { DefaultArgs } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-const prisma = new PrismaClient();
+type User = {
+  id?: number;
+  email: string;
+  passwordHash: string;
+  name: string;
+} | null;
 
-async function registerUser(name: string, email: string, passwordHash: string, res: NextApiResponse): Promise<void> {
-  const existingUser = await prisma.user.findUnique({ where: { email } });
-  let user;
-  if (!existingUser) {
-    try {
-      user = await prisma.user.create({
-        data: { name, email, passwordHash }
-      });
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2002') {
-          return res.status(400).json({ message: `Prisma error P2002! - ${e.message}` });
-        }
-        return res.status(400).json({ message: `Prisma error - ${e.message}` });
-      }
-    }
-  } else {
-    return res.status(400).json({ message: 'User already exists' });
-  }
-  return res.status(201).json({ user });
-}
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500 // Max 500 users per second
+});
 
-export const hashPassword = (password: string): string => bcrypt.hashSync(password, 10);
-export async function POST(
-  req: NextApiRequest,
+const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
+
+const registerUser = async (
+  name: string,
+  email: string,
+  passwordHash: string,
   res: NextApiResponse
-): Promise<void | NextResponse<{ email: string; password: string; message: string }>> {
-  const { name, email, password, confirmPassword } = req.body;
+): Promise<Response> => {
+  let user: User = { email, passwordHash, name };
+  const existingUser: User = await prisma.user.findUnique({ where: { email } });
+
+  if (existingUser) {
+    return Response.json({ message: 'User already exists' }, { status: 400 });
+  }
+  try {
+    await limiter.check(res, 10, 'CACHE_TOKEN');
+    user = await prisma.user.create({
+      data: { name, email, passwordHash }
+    });
+    NextResponse.redirect('/dashboard', 201);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return Response.json({ message: `Prisma error P2002! - ${error.message}` }, { status: 400 });
+      }
+      return Response.json({ message: `Prisma error - ${error.message}` }, { status: 400 });
+    }
+    return Response.json({ message: 'User already exists' }, { status: 401 });
+  }
+  // NextResponse.redirect('/dashboard', 201);
+  return NextResponse.json({ name, email }, { status: 200 });
+};
+
+export async function POST(req: NextApiRequest, res: NextApiResponse): Promise<Response> {
+  const url: string = req.url as string;
+
+  const name: string = getURLParams('name', url);
+  const email: string = getURLParams('email', url);
+  const password: string = getURLParams('password', url);
+  const passwordHash = bcrypt.hashSync(password, 10) as string;
 
   if (password.length < 6) {
-    console.error('Password is not at least 6 characters');
-    return res.status(400).json({ message: 'Password is not at least 6 characters' });
+    return Response.json({ message: 'Password is not at least 6 characters' }, { status: 400 });
   }
-
-  if (password === confirmPassword) {
-    try {
-      const passwordHash: string = hashPassword(password);
-      await registerUser(name, email, passwordHash, res);
-    } catch (error) {
-      console.error('error', error);
-
-      return res.status(400).json({ error });
-    }
-  } else {
-    return res.status(400).json({ message: 'Passwords do not match' });
+  try {
+    await registerUser(name, email, passwordHash, res);
+  } catch (error) {
+    return Response.json({ message: 'Error creating user', error }, { status: 400 });
+  } finally {
+    // eslint-disable-next-line no-unsafe-finally
+    return NextResponse.json({ email, name, passwordHash }, { status: 200 });
   }
 }
 

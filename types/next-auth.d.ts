@@ -7,25 +7,29 @@ declare module 'next-auth' {
     accessTokenExpires?: string;
     sessionToken?: string;
     refreshToken?: string;
-    expires: string;
-    signOut?: () => void;
-    signIn?: () => void;
+    refreshTokenExpires?: string;
     status?: string;
-    user: User & DefaultUser['user'];
+    user: {
+      /** The user's access token. */
+      accessToken: string;
+      email: string | undefined;
+      name: string | undefined;
+    } & DefaultSession['user'];
+    expires: string;
   }
 
   interface User {
-    email?: string | undefined;
-    name?: string | undefined;
-    accessToken?: string | undefined;
+    accessToken: string;
+    email: string;
+    name: string;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
     refreshTokenExpires?: number;
-    accessTokenExpires?: number;
     refreshToken?: string;
+    accessTokenExpires?: number;
     accessToken?: string;
     token: string;
     exp?: number;
