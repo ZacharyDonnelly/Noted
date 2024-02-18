@@ -1,10 +1,10 @@
 import rateLimit from '@/utils/api/rate-limit';
-import getURLParams from '@/utils/helpers/getURLParameters';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
+import { text } from 'stream/consumers';
 
 type User = {
   id?: number;
@@ -47,28 +47,27 @@ const registerUser = async (
     }
     return Response.json({ message: 'User already exists' }, { status: 401 });
   }
-  // NextResponse.redirect('/dashboard', 201);
+
   return NextResponse.json({ name, email }, { status: 200 });
 };
 
 export async function POST(req: NextApiRequest, res: NextApiResponse): Promise<Response> {
-  const url: string = req.url as string;
+  const body = await text(req.body);
+  const data = JSON.parse(body);
 
-  const name: string = getURLParams('name', url);
-  const email: string = getURLParams('email', url);
-  const password: string = getURLParams('password', url);
-  const passwordHash = bcrypt.hashSync(password, 10) as string;
+  console.log(data.name, data.email, data.password);
+  const passwordHash = bcrypt.hashSync(data.password, 10) as string;
 
-  if (password.length < 6) {
+  if (data.password.length < 6) {
     return Response.json({ message: 'Password is not at least 6 characters' }, { status: 400 });
   }
   try {
-    await registerUser(name, email, passwordHash, res);
+    await registerUser(data.name, data.email, passwordHash, res);
   } catch (error) {
     return Response.json({ message: 'Error creating user', error }, { status: 400 });
   } finally {
     // eslint-disable-next-line no-unsafe-finally
-    return NextResponse.json({ email, name, passwordHash }, { status: 200 });
+    return NextResponse.json({ name: data.name, email: data.email, passwordHash }, { status: 200 });
   }
 }
 

@@ -1,9 +1,9 @@
 {
   "name": "noted",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Noted by Zach Donnelly<mail@zachdonnelly.com>",
-  "author": "Zachary Donnelly<mail@zachdonnelly.com>",
+  "description": "Noted by Zach Donnelly",
+  "author": "Zachary Donnelly",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -75,15 +75,14 @@
     "@next-auth/prisma-adapter": "^1.0.7",
     "@next/mdx": "^14.1.0",
     "@prisma/client": "^5.9.1",
-    "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "next": "latest",
-    "next-auth": "^4.24.5",
+    "next-auth": "^4.24.6",
     "prisma": "^5.9.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.50.1",
-    "swr": "^2.2.4",
+    "swr": "^2.2.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -98,8 +97,8 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jest": "^29.5.12",
     "@types/mdx": "^2.0.11",
-    "@types/node": "^20.11.17",
-    "@types/react": "^18.2.55",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@types/react-helmet": "^6.1.11",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
@@ -155,7 +154,7 @@
     "crypto": false
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "husky": {
     "hooks": {

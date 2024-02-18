@@ -3,7 +3,6 @@
 import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
 import Input from '@/components/base/input';
-import axios from 'axios';
 import { signIn, useSession } from 'next-auth/react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
@@ -40,26 +39,21 @@ const Signup: FC = () => {
       throw new Error('Passwords do not match');
     }
   };
-
   const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
     try {
-      const data = await axios.post(
-        `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
-        {
-          name,
-          email,
-          password,
-          confirmPassword
+      const response = await fetch('http://localhost:3000/api/auth/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      if (data.status === 200) {
-        signInHandler(name, email, password, confirmPassword);
-      }
+        body: JSON.stringify({ name, email, password, confirmPassword })
+      });
+
+      const data = await response.json();
+
+      signInHandler(data.name, data.email, data.password, data.confirmPassword);
+
+      return { name: data.name, email: data.email, password: data.password };
     } catch (error) {
       console.error(`Error logging in: ${error}`);
       throw new Error(`Error logging in: ${error}`);

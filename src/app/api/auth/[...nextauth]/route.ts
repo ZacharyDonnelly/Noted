@@ -12,7 +12,6 @@ import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
-import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -42,20 +41,17 @@ const handler: AuthOptions = NextAuth({
       async authorize(credentials): Promise<any> {
         if (!credentials) return null;
         const { name, email, password } = credentials;
+
         try {
-          const data = await axios.post(
-            `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}`,
-            {
-              name,
-              email,
-              password
+          const response = await fetch('http://localhost:3000/api/auth/user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
             },
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
+            body: JSON.stringify({ name, email, password })
+          });
+
+          const data = await response.json();
           return { data, name, email, password };
         } catch (error) {
           console.error(`Error logging in: ${error}`);

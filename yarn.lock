@@ -1806,7 +1806,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.17":
+"@types/node@npm:*, @types/node@npm:^20.11.19":
   version: 20.11.19
   resolution: "@types/node@npm:20.11.19"
   dependencies:
@@ -1856,7 +1856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.55":
+"@types/react@npm:*, @types/react@npm:^18.2.56":
   version: 18.2.56
   resolution: "@types/react@npm:18.2.56"
   dependencies:
@@ -2622,17 +2622,6 @@ __metadata:
   version: 4.7.0
   resolution: "axe-core@npm:4.7.0"
   checksum: 10/615c0f7722c3c9fcf353dbd70b00e2ceae234d4c17cbc839dd85c01d16797c4e4da45f8d27c6118e9e6b033fb06efd196106e13651a1b2f3a10e0f11c7b2f660
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.6.7":
-  version: 1.6.7
-  resolution: "axios@npm:1.6.7"
-  dependencies:
-    follow-redirects: "npm:^1.15.4"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/a1932b089ece759cd261f175d9ebf4d41c8994cf0c0767cda86055c7a19bcfdade8ae3464bf4cec4c8b142f4a657dc664fb77a41855e8376cf38b86d7a86518f
   languageName: node
   linkType: hard
 
@@ -4815,16 +4804,6 @@ __metadata:
   version: 3.2.9
   resolution: "flatted@npm:3.2.9"
   checksum: 10/dc2b89e46a2ebde487199de5a4fcb79e8c46f984043fea5c41dbf4661eb881fefac1c939b5bdcd8a09d7f960ec364f516970c7ec44e58ff451239c07fd3d419b
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.15.4":
-  version: 1.15.5
-  resolution: "follow-redirects@npm:1.15.5"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: 10/d467f13c1c6aa734599b8b369cd7a625b20081af358f6204ff515f6f4116eb440de9c4e0c49f10798eeb0df26c95dd05d5e0d9ddc5786ab1a8a8abefe92929b4
   languageName: node
   linkType: hard
 
@@ -7820,7 +7799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-auth@npm:^4.24.5":
+"next-auth@npm:^4.24.6":
   version: 4.24.6
   resolution: "next-auth@npm:4.24.6"
   dependencies:
@@ -8004,13 +7983,12 @@ __metadata:
     "@types/bcryptjs": "npm:^2.4.6"
     "@types/jest": "npm:^29.5.12"
     "@types/mdx": "npm:^2.0.11"
-    "@types/node": "npm:^20.11.17"
-    "@types/react": "npm:^18.2.55"
+    "@types/node": "npm:^20.11.19"
+    "@types/react": "npm:^18.2.56"
     "@types/react-dom": "npm:^18.2.19"
     "@types/react-helmet": "npm:^6.1.11"
     "@typescript-eslint/eslint-plugin": "npm:^7.0.1"
     "@typescript-eslint/parser": "npm:^7.0.1"
-    axios: "npm:^1.6.7"
     babel-jest: "npm:^29.7.0"
     bcryptjs: "npm:^2.4.3"
     classnames: "npm:^2.5.1"
@@ -8037,7 +8015,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     markdownlint-cli2: "npm:^0.12.1"
     next: "npm:latest"
-    next-auth: "npm:^4.24.5"
+    next-auth: "npm:^4.24.6"
     nodemon: "npm:^3.0.3"
     npm-run-all2: "npm:^6.0.0"
     prettier: "npm:^3.2.5"
@@ -8053,7 +8031,7 @@ __metadata:
     stylelint-config-prettier: "npm:^9.0.5"
     stylelint-config-recommended: "npm:^14.0.0"
     stylelint-prettier: "npm:^5.0.0"
-    swr: "npm:^2.2.4"
+    swr: "npm:^2.2.5"
     ts-jest: "npm:^29.1.2"
     ts-node: "npm:^10.9.2"
     ts-prune: "npm:^0.10.3"
@@ -8704,13 +8682,6 @@ __metadata:
   version: 1.0.0
   resolution: "proxy-from-env@npm:1.0.0"
   checksum: 10/f26b59c0f21dd118c23a0eb1f5250848a23b5029ec5c9f2b4011b6439b19fa83da50858d84e9261da94aa4e67778c1bac5483afce884b7770a96895a4e6b9a19
-  languageName: node
-  linkType: hard
-
-"proxy-from-env@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "proxy-from-env@npm:1.1.0"
-  checksum: 10/f0bb4a87cfd18f77bc2fba23ae49c3b378fb35143af16cc478171c623eebe181678f09439707ad80081d340d1593cd54a33a0113f3ccb3f4bc9451488780ee23
   languageName: node
   linkType: hard
 
@@ -9830,7 +9801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swr@npm:^2.2.4":
+"swr@npm:^2.2.5":
   version: 2.2.5
   resolution: "swr@npm:2.2.5"
   dependencies:
