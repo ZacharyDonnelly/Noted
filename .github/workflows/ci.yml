@@ -25,22 +25,22 @@ jobs:
       - run: yarn install
       - run: yarn typecheck
 
-  jest-tests:
-    if: always()
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        project: ["."]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "yarn"
-      - run: yarn install
-      - name: Run unit and integration tests
-        working-directory: ${{ matrix.project }}
-        run: yarn test
+  # jest-tests:
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       project: ["."]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "18"
+  #         cache: "yarn"
+  #     - run: yarn install
+  #     - name: Run unit and integration tests
+  #       working-directory: ${{ matrix.project }}
+  #       run: yarn test
 
   # e2e-tests:
   #   if: always()

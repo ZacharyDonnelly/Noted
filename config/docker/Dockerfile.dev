@@ -29,14 +29,14 @@ RUN yarn build
 FROM node:iron-alpine3.18
 
 # Copy the build artifacts from the builder stage
-COPY --from=build /usr/src/app/next.config.mjs ./
+COPY --from=build /usr/src/app/next.config.js ./
 COPY --from=build /usr/src/app/public ./public
 COPY --from=build /usr/src/app/.next ./.next
 COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/package.json ./package.json
 
 # Metadata labels
-LABEL maintainer="Zach Donnelly <mail@zachdonnelly.com>"
+LABEL maintainer="Zach Donnelly"
 LABEL description="Noted"
 LABEL version="1.0"
 

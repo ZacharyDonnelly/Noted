@@ -40,13 +40,10 @@ const Signup: FC = () => {
               body: JSON.stringify({ name, email, password, confirmPassword })
             });
 
-            signIn('credentials', {
+            await signIn('credentials', {
               email,
               password,
               callbackUrl: 'http://localhost:3000/dashboard/'
-            }).catch(error => {
-              console.error('Error Creating Account!', error);
-              router.push('/signup/');
             });
           } else {
             console.error('Passwords do not match');

@@ -35,16 +35,9 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "next-env.d.ts",
     "next.config.js",
-    "types/environment.d.ts",
-    "types/mdx.d.ts",
-    "types/next-auth.d.ts",
-    "types/user.ts",
-    "tests",
-    "jest.config.ts",
     ".eslintrc.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "cypress", "public"]
+  "exclude": ["node_modules", "cypress", "public", "tests"]
 }

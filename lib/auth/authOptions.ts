@@ -1,39 +1,28 @@
-import { INTERVAL, UNIQUE_TOKEN_PER_INTERVAL } from '@/constants/rateLimit';
-import type {
-  AuthOptions,
-  DefaultSession,
-  JWT,
-  JWTProps,
-  RedirectProps,
-  Session,
-  SessionProps,
-  User
-} from '@/types/api/callbacks';
-import rateLimit from '@/utils/api/rate-limit';
+import type { DefaultSession, JWT, JWTProps, RedirectProps, Session, SessionProps, User } from '@/types/api/callbacks';
 import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
+import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
-const limiter = rateLimit({
-  interval: INTERVAL,
-  uniqueTokenPerInterval: UNIQUE_TOKEN_PER_INTERVAL
-});
+// const limiter = rateLimit({
+//   interval: INTERVAL,
+//   uniqueTokenPerInterval: UNIQUE_TOKEN_PER_INTERVAL
+// });
 
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
-const handler: AuthOptions = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string
     }),
-    // TODO: Refactor google oauth provider to handle state cookies errors
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string
@@ -79,7 +68,8 @@ const handler: AuthOptions = NextAuth({
     })
   ],
   callbacks: {
-    async signIn(): Promise<boolean> {
+    async signIn({ profile, user }): Promise<boolean> {
+      user.emailVerified = profile?.email_verified || false;
       return true;
     },
     async redirect({ url, baseUrl }: RedirectProps): Promise<string> {
@@ -93,7 +83,7 @@ const handler: AuthOptions = NextAuth({
       return baseUrl;
     },
     async session({ session, token, newSession, trigger }: SessionProps): Promise<Session | DefaultSession> {
-      session.user = { name: '', email: '', accessToken: '' };
+      session.user = { name: '', email: '', accessToken: '', emailVerified: false };
       if (trigger === 'update' && newSession?.name) {
         session.accessToken = token.jti || '';
         session.user.name = newSession.name;
@@ -127,6 +117,7 @@ const handler: AuthOptions = NextAuth({
     error: '/api/auth/error',
     verifyRequest: '/api/auth/signin'
   }
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

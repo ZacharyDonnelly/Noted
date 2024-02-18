@@ -1164,7 +1164,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:14.1.0":
+"@next/eslint-plugin-next@npm:14.1.0, @next/eslint-plugin-next@npm:^14.1.0":
   version: 14.1.0
   resolution: "@next/eslint-plugin-next@npm:14.1.0"
   dependencies:
@@ -7973,6 +7973,7 @@ __metadata:
     "@mdx-js/loader": "npm:^3.0.1"
     "@mdx-js/react": "npm:^3.0.1"
     "@next-auth/prisma-adapter": "npm:^1.0.7"
+    "@next/eslint-plugin-next": "npm:^14.1.0"
     "@next/mdx": "npm:^14.1.0"
     "@prisma/client": "npm:^5.9.1"
     "@testing-library/cypress": "npm:^10.0.1"

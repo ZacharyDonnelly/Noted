@@ -1,9 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { NextResponse } from 'next/server';
-import { text } from 'stream/consumers';
+import { NextRequest, NextResponse } from 'next/server';
 
 // const limiter = rateLimit({
 //   interval: INTERVAL,
@@ -12,9 +10,9 @@ import { text } from 'stream/consumers';
 
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
-export async function POST(req: NextApiRequest): Promise<Response> {
-  const body = await text(req.body);
-  const data = JSON.parse(body);
+export async function POST(req: NextRequest | Request): Promise<NextResponse> {
+  const data = await req.json();
+
   const salt = bcrypt.genSaltSync(10);
   const passwordHash = bcrypt.hashSync(data.password, salt) as string;
 
@@ -46,6 +44,6 @@ export async function POST(req: NextApiRequest): Promise<Response> {
   }
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse): Promise<NextApiResponse<number>> {
-  return res.status(400);
+export async function GET(req: NextRequest | Request, res: NextResponse): Promise<NextResponse> {
+  return NextResponse.json({ message: 'GET request' }, { status: 200 });
 }

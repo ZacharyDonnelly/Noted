@@ -1,18 +1,10 @@
-import type {
-  AuthOptions,
-  DefaultSession,
-  JWT,
-  JWTProps,
-  RedirectProps,
-  Session,
-  SessionProps,
-  User
-} from '@/types/api/callbacks';
+import type { DefaultSession, JWT, JWTProps, RedirectProps, Session, SessionProps, User } from '@/types/api/callbacks';
 import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
+import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
@@ -25,7 +17,7 @@ import GoogleProvider from 'next-auth/providers/google';
 
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
-const handler: AuthOptions = NextAuth({
+const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -76,7 +68,7 @@ const handler: AuthOptions = NextAuth({
     })
   ],
   callbacks: {
-    async signIn({ account, profile, user }): Promise<boolean> {
+    async signIn({ profile, user }): Promise<boolean> {
       user.emailVerified = profile?.email_verified || false;
       return true;
     },
@@ -125,6 +117,7 @@ const handler: AuthOptions = NextAuth({
     error: '/api/auth/error',
     verifyRequest: '/api/auth/signin'
   }
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

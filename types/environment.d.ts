@@ -11,4 +11,4 @@ declare namespace NodeJS {
   }
 }
 
-declare module 'next-offline';
+declare module 'lru-cache';

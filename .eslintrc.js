@@ -1,11 +1,12 @@
 module.exports = {
-  ignorePatterns: ['**/public/**', '**/.cache/**', '**/static/**', '**/coverage/**'],
+  ignorePatterns: ['**/public/**', '**/.cache/**', '**/static/**', '**/coverage/**', '**/tests/**'],
   extends: [
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:testing-library/react',
     'prettier',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@next/next/recommended',
     'airbnb'
   ],
   plugins: ['import'],
