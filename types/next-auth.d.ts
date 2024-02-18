@@ -14,7 +14,7 @@ declare module 'next-auth' {
       accessToken: string;
       email: string | undefined;
       name: string | undefined;
-    } & DefaultSession['user'];
+    } & DefaultSession['user']; // eslint-disable-line @typescript-eslint/no-redundant-type-constituents
     expires: string;
   }
 
@@ -22,15 +22,6 @@ declare module 'next-auth' {
     accessToken: string;
     email: string;
     name: string;
-  }
-
-  interface DefaultSession {
-    user: {
-      id: string;
-      accessToken: string;
-      email: string;
-      name: string;
-    };
   }
 }
 
