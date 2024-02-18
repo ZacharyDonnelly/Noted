@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FC } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 
+import { SessionPartialUser } from '@/types/user';
 import './signup.scss';
 
 const Signup: FC = () => {
@@ -27,33 +28,34 @@ const Signup: FC = () => {
   }, [isAuthenticated, status, router]);
 
   const submitHandler = handleSubmit(
-    async ({ name, email, password, confirmPassword }): Promise<{ name: string; email: string }> => {
-      try {
-        if (password === confirmPassword) {
-          await fetch('http://localhost:3000/api/auth/user', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email, password, confirmPassword })
-          });
-
-          signIn('credentials', {
-            email,
-            password,
-            callbackUrl: '/dashboard',
-            redirect: true
-          })
-            .then(() => ({ name, email }))
-            .catch(error => {
-              console.error('Error Creating Account!', error);
-              router.push('/signup');
+    async ({ name, email, password, confirmPassword }): Promise<SessionPartialUser> => {
+      if (isChecked) {
+        try {
+          if (password === confirmPassword) {
+            await fetch('http://localhost:3000/api/auth/user', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name, email, password, confirmPassword })
             });
-        } else {
-          console.error('Passwords do not match');
+
+            signIn('credentials', {
+              email,
+              password,
+              callbackUrl: 'http://localhost:3000/dashboard/'
+            }).catch(error => {
+              console.error('Error Creating Account!', error);
+              router.push('/signup/');
+            });
+          } else {
+            console.error('Passwords do not match');
+          }
+        } catch (error) {
+          console.error(`There was an error trying to sign in: ${error}`);
         }
-      } catch (error) {
-        console.error(`There was an error trying to sign in: ${error}`);
+      } else {
+        alert('Please check the box below'); // TODO: Add real handler for this
       }
       return { name, email };
     }

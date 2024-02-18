@@ -15,3 +15,8 @@ export interface LocalUser {
   signIn?: () => void;
   passwordHash?: string;
 }
+
+export interface SessionPartialUser {
+  name: string;
+  email: string;
+}

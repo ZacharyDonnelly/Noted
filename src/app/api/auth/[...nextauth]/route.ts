@@ -1,4 +1,3 @@
-import { INTERVAL, UNIQUE_TOKEN_PER_INTERVAL } from '@/constants/rateLimit';
 import type {
   AuthOptions,
   DefaultSession,
@@ -6,9 +5,9 @@ import type {
   JWTProps,
   RedirectProps,
   Session,
-  SessionProps
+  SessionProps,
+  User
 } from '@/types/api/callbacks';
-import rateLimit from '@/utils/api/rate-limit';
 import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Prisma, PrismaClient } from '@prisma/client';
@@ -19,10 +18,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
-const limiter = rateLimit({
-  interval: INTERVAL,
-  uniqueTokenPerInterval: UNIQUE_TOKEN_PER_INTERVAL
-});
+// const limiter = rateLimit({
+//   interval: INTERVAL,
+//   uniqueTokenPerInterval: UNIQUE_TOKEN_PER_INTERVAL
+// });
 
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
@@ -32,7 +31,6 @@ const handler: AuthOptions = NextAuth({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string
     }),
-    // TODO: Refactor google oauth provider to handle state cookies errors
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string
@@ -44,7 +42,7 @@ const handler: AuthOptions = NextAuth({
         email: { label: 'Email Address', type: 'email', required: true },
         password: { label: 'Password', type: 'password', required: true }
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials): Promise<User> {
         if (!credentials?.email || !credentials?.password) {
           console.error('Information is not available. Could not log you in. Please try again later.');
         }
@@ -54,12 +52,12 @@ const handler: AuthOptions = NextAuth({
             email: credentials?.email
           },
           select: {
+            id: true,
             name: true,
             email: true,
             password: true
           }
         });
-
         if (user) {
           const isMatch = await bcrypt.compare(credentials?.password as string, user.password as string);
 
@@ -70,15 +68,16 @@ const handler: AuthOptions = NextAuth({
               throw new Error('Invalid password!');
             }
 
-            return { name: user.name, email: user.email };
+            return { id: user.id, name: user.name, email: user.email };
           }
         }
-        return {};
+        return { id: '', name: '', email: '' };
       }
     })
   ],
   callbacks: {
-    async signIn(): Promise<boolean> {
+    async signIn({ account, profile, user }): Promise<boolean> {
+      user.emailVerified = profile?.email_verified || false;
       return true;
     },
     async redirect({ url, baseUrl }: RedirectProps): Promise<string> {
@@ -92,7 +91,7 @@ const handler: AuthOptions = NextAuth({
       return baseUrl;
     },
     async session({ session, token, newSession, trigger }: SessionProps): Promise<Session | DefaultSession> {
-      session.user = { name: '', email: '', accessToken: '' };
+      session.user = { name: '', email: '', accessToken: '', emailVerified: false };
       if (trigger === 'update' && newSession?.name) {
         session.accessToken = token.jti || '';
         session.user.name = newSession.name;
@@ -128,4 +127,4 @@ const handler: AuthOptions = NextAuth({
   }
 });
 
-export { handler as GET, handler as POST, handler as signIn, handler as signOut };
+export { handler as GET, handler as POST };

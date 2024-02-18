@@ -5,7 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FC } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import './login.scss';
@@ -24,34 +24,38 @@ const Login: FC = () => {
   }, [isAuthenticated, status, router]);
 
   const submitHandler = handleSubmit(({ email, password }): void => {
-    signIn('credentials', {
-      email,
-      password,
-      callbackUrl: '/dashboard'
-    })
-      .then(() => {
-        redirect('/dashboard');
-      })
-      .catch(error => {
+    void (async () => {
+      try {
+        if (isChecked) {
+          await signIn('credentials', {
+            email,
+            password,
+            callbackUrl: 'http://localhost:3000/dashboard/'
+          });
+        } else {
+          alert('Handle me'); // TODO: Add real handler for this
+        }
+      } catch (error) {
         console.error('Error logging in!', error);
-        redirect('/login');
-      });
+        router.push('/login/');
+      }
+    })();
   });
 
   const oAuthHandler = (provider: string): void => {
-    if (provider === 'github') {
-      signIn('github', { callbackUrl: '/dashboard' }).catch(error => console.error('Error logging in!', error));
-    } else {
-      signIn('google')
-        .then(() => router.push('/dashboard'))
-        .catch(error => {
-          console.error('Error logging in!', error);
-          router.push('/login');
-        });
-    }
+    void (async () => {
+      try {
+        await signIn(provider, { callbackUrl: 'http://localhost:3000/dashboard/' });
+      } catch (error) {
+        console.error('Error signing in!', error);
+        router.push('/login/');
+      }
+    })();
   };
 
-  const checkboxHandler = (): void => setIsChecked(!isChecked);
+  const checkboxHandler = (): void => {
+    setIsChecked(!isChecked);
+  };
 
   return (
     <section className="login">

@@ -12,17 +12,17 @@ import { text } from 'stream/consumers';
 
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
-export async function POST(req: NextApiRequest, res: NextApiResponse): Promise<Response> {
+export async function POST(req: NextApiRequest): Promise<Response> {
   const body = await text(req.body);
   const data = JSON.parse(body);
   const salt = bcrypt.genSaltSync(10);
   const passwordHash = bcrypt.hashSync(data.password, salt) as string;
 
   if (data.password.length < 6) {
-    return Response.json({ message: 'Password is not at least 6 characters' }, { status: 400 });
+    return NextResponse.json({ message: 'Password is not at least 6 characters' }, { status: 400 });
   }
   try {
-    const existingUser = await prisma.user.findUnique({ where: { email: data.email } });
+    const existingUser = await prisma.user.findFirst({ where: { email: data.email } });
 
     if (existingUser) {
       return NextResponse.json({ message: 'User already exists' }, { status: 401 });
@@ -40,6 +40,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse): Promise<R
       }
       return NextResponse.json({ message: `Prisma error - ${error.message}` }, { status: 400 });
     }
+
+    console.error('Error creating user:', error);
     return NextResponse.json({ message: 'Error creating user', error }, { status: 400 });
   }
 }

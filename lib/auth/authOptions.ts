@@ -1,3 +1,4 @@
+import { INTERVAL, UNIQUE_TOKEN_PER_INTERVAL } from '@/constants/rateLimit';
 import type {
   AuthOptions,
   DefaultSession,
@@ -5,93 +6,75 @@ import type {
   JWTProps,
   RedirectProps,
   Session,
-  SessionProps
+  SessionProps,
+  User
 } from '@/types/api/callbacks';
-import { LocalUser } from '@/types/user';
+import rateLimit from '@/utils/api/rate-limit';
 import prismadb from '@/utils/prisma/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { DefaultArgs } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
+import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
+const limiter = rateLimit({
+  interval: INTERVAL,
+  uniqueTokenPerInterval: UNIQUE_TOKEN_PER_INTERVAL
+});
+
 const prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> = new PrismaClient();
 
-const authOptions: AuthOptions = {
+const handler: AuthOptions = NextAuth({
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string
     }),
+    // TODO: Refactor google oauth provider to handle state cookies errors
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string
     }),
     CredentialsProvider({
-      id: 'domain-signup',
-      name: 'Credentials',
-      credentials: {
-        name: { label: 'Name', type: 'text' },
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' }
-      },
-      async authorize(credentials): Promise<any> {
-        if (!credentials) return null;
-        const { name, email, password } = credentials;
-
-        try {
-          const response = await fetch('http://localhost:3000/api/auth/user', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email, password })
-          });
-
-          const data = await response.json();
-          return { data, name, email, password };
-        } catch (error) {
-          console.error(`Error logging in: ${error}`);
-          throw new Error(`Error logging in: ${error}`);
-        }
-      }
-    }),
-    CredentialsProvider({
-      id: 'domain-login',
+      id: 'credentials',
       name: 'Credentials',
       credentials: {
         email: { label: 'Email Address', type: 'email', required: true },
         password: { label: 'Password', type: 'password', required: true }
       },
-      // eslint-disable-next-line consistent-return
-      async authorize(credentials): Promise<any> {
-        if (!credentials) {
+      async authorize(credentials): Promise<User> {
+        if (!credentials?.email || !credentials?.password) {
           console.error('Information is not available. Could not log you in. Please try again later.');
-          throw new Error('Information is not available. Could not log you in. Please try again later.');
-        } else {
-          const { email, password } = credentials;
+        }
 
-          const existingUser = await prisma.user.findUnique({
-            where: {
-              email
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials?.email
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            password: true
+          }
+        });
+        if (user) {
+          const isMatch = await bcrypt.compare(credentials?.password as string, user.password as string);
+
+          if (isMatch) {
+            const isValid: boolean = bcrypt.compareSync(credentials?.password as string, user.password as string);
+
+            if (!isValid) {
+              throw new Error('Invalid password!');
             }
-          });
 
-          if (existingUser) {
-            const isValid: boolean = bcrypt.compareSync(password, existingUser.passwordHash);
-
-            if (isValid) {
-              const newUser: Pick<LocalUser, 'email' | 'passwordHash'> = {
-                email,
-                passwordHash: existingUser.passwordHash
-              };
-              return Promise.resolve(newUser);
-            }
-            return Promise.resolve(null);
+            return { id: user.id, name: user.name, email: user.email };
           }
         }
+        return { id: '', name: '', email: '' };
       }
     })
   ],
@@ -140,10 +123,10 @@ const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/api/auth/signin',
-    signOut: '/api/auth/signout',
+    signOut: '/api/auth/signin',
     error: '/api/auth/error',
     verifyRequest: '/api/auth/signin'
   }
-};
+});
 
-export default authOptions;
+export { handler as GET, handler as POST };

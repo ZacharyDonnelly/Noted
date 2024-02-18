@@ -14,14 +14,40 @@ declare module 'next-auth' {
       accessToken: string;
       email: string | undefined;
       name: string | undefined;
+      emailVerified?: boolean;
     } & DefaultSession['user']; // eslint-disable-line @typescript-eslint/no-redundant-type-constituents
     expires: string;
   }
 
   interface User {
-    accessToken: string;
+    id: string | number;
+    accessToken?: string;
     email: string;
     name: string;
+    emailVerified?: boolean;
+  }
+
+  interface Account {
+    id: number;
+    userId: number;
+    type: string;
+    provider: string;
+    providerAccountId: string;
+    refresh_token?: string;
+    access_token?: string;
+    expires_at?: number;
+    token_type?: string;
+    scope?: string;
+    id_token?: string;
+    session_state?: string;
+  }
+
+  interface Profile {
+    id: string | number;
+    name: string;
+    email: string;
+    image: string;
+    email_verified: boolean;
   }
 }
 
