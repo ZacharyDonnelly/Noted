@@ -1,0 +1,19 @@
+@import '../../../styles/_vars.scss';
+
+.noted_button {
+  background-color: $brand_blue;
+  color: $white;
+  font-weight: 600;
+  font-size: 1.8rem;
+
+  &.imageMask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+  }
+
+  &:hover {
+    background-color: $brand_blue_dark;
+  }
+}

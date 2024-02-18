@@ -1,0 +1,56 @@
+@import '../../styles/_vars.scss';
+
+.navbar {
+  height: 5.2rem;
+  width: 100%;
+  background-color: $white;
+  border-bottom: 0.5px solid $borderGray;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+
+  .nav_items {
+    height: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    &.buttonGap {
+      gap: 1.6rem;
+    }
+
+    .nav_item {
+      color: $black;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.8rem;
+      cursor: pointer;
+
+      &.username {
+        text-transform: capitalize;
+      }
+
+      .nav_button {
+        border-radius: $border-radius-md;
+        font-size: 1.6rem;
+        height: 3rem;
+        width: 8rem;
+
+        &.create {
+          background-color: $gray;
+          border: 1px solid $gray;
+          color: $black;
+        }
+      }
+
+      &:last-of-type {
+        margin-right: 3.2rem;
+
+        @media screen and (max-width: 768px) {
+          margin-right: $spacing-sm;
+        }
+      }
+    }
+  }
+}

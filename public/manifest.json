@@ -1,0 +1,8 @@
+{
+  "name": "Noted by Zach Donnelly",
+  "short_name": "Noted",
+  "background_color": "#FFFFFF",
+  "description": "Noted by Zach Donnelly<mail@zachdonnelly.com>",
+  "display": "fullscreen",
+  "start_url": "/"
+}

@@ -1,0 +1,18 @@
+@import '../../../styles/_vars.scss';
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .checkbox_input {
+    margin-right: $spacing-xs;
+  }
+
+  .checkbox_label {
+    vertical-align: middle;
+    user-select: none; /* Prevents text selection for the label */
+  }
+}

@@ -12,7 +12,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
-    project: ['./tsconfig.json']
+    project: ['./tsconfig.cy.json']
   },
   env: {
     browser: true,
@@ -22,4 +22,4 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }]
   }
-}
+};

@@ -1,4 +1,4 @@
-import { defineConfig } from 'cypress'
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   fixturesFolder: false,
@@ -13,4 +13,4 @@ export default defineConfig({
       bundler: 'webpack'
     }
   }
-})
+});

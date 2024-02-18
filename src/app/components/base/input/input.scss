@@ -1,0 +1,19 @@
+@import '../../../styles/_vars.scss';
+
+.form_input {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+
+  .input_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    .form_input {
+      // margin-top: $spacing-xs;
+      width: inherit;
+      border: 0.5px solid $borderGray;
+      border-radius: $border-radius-xs;
+    }
+  }
+}

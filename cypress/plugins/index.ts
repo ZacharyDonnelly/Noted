@@ -15,6 +15,6 @@
 const pluginConfig: Cypress.PluginConfig = () => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-}
+};
 
-export default pluginConfig
+export default pluginConfig;

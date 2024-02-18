@@ -1,0 +1,28 @@
+@import '../../../styles/_vars.scss';
+
+.featured_story {
+  width: 20rem;
+  height: 10rem;
+
+  .story_wrapper {
+    width: 20rem;
+    height: 10rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: $white;
+    border: 1px solid $borderGray;
+    border-radius: $border-radius-xs;
+
+    p {
+      align-self: flex-start;
+      color: $black;
+      text-align: center;
+      font-family: $font-sans;
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
+  }
+}

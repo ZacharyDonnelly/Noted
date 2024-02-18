@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "Prisma.prisma",
+    "csstools.postcss",
+    "Orta.vscode-jest",
+    "mikestead.dotenv"
+  ]
+}

@@ -1,0 +1,74 @@
+@import '@/styles/_vars.scss';
+
+.homepage {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $white;
+
+  .homepage_cta {
+    display: flex;
+    width: 110rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .homepage_header {
+      align-self: flex-start;
+      margin-top: $spacing-lg;
+
+      h3 {
+        font-family: $font-sans;
+        font-size: 3.2rem;
+        line-height: 3.6rem;
+        margin-bottom: $spacing-sm;
+      }
+
+      p {
+        font-family: $font-mono;
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+      }
+    }
+    .card_row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: $spacing-lg;
+    }
+  }
+
+  .featured {
+    display: flex;
+    width: 110rem;
+    flex-direction: column;
+
+    .featured_header {
+      align-self: flex-start;
+      margin-top: $spacing-lg;
+
+      h4 {
+        font-family: $font-sans;
+        font-size: 3.2rem;
+        line-height: 3.6rem;
+        margin-bottom: $spacing-sm;
+      }
+
+      p {
+        font-family: $font-mono;
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+      }
+    }
+
+    .featured_row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: $spacing-lg 0 5rem;
+    }
+  }
+}

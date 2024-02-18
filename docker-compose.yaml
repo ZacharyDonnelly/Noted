@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  frontend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./config/docker/Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - database
+
+  redis-stack:
+    image: redis/redis-stack:latest
+    container_name: cache-handler-redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+
+  database:
+    restart: unless-stopped
+    image: keinos/sqlite3:latest
+    container_name: noted_sqlite3
+    stdin_open: true
+    tty: true
+    expose:
+      - "5432:5432"
+    volumes:
+      - noted_data:/var/lib/sqlite3/data
+    environment:
+      - NODE_ENV=development
+
+volumes:
+  noted_data:
+    driver: local
