@@ -55,7 +55,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse): Promise<R
   const body = await text(req.body);
   const data = JSON.parse(body);
 
-  console.log(data.name, data.email, data.password);
   const passwordHash = bcrypt.hashSync(data.password, 10) as string;
 
   if (data.password.length < 6) {

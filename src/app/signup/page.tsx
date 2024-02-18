@@ -26,20 +26,24 @@ const Signup: FC = () => {
     }
   }, [isAuthenticated, status, router]);
 
-  const signInHandler = (name: string, email: string, password: string, confirmPassword: string) => {
-    if (password === confirmPassword) {
-      signIn('domain-signup', {
-        name,
-        email,
-        password,
-        callbackUrl: 'http://localhost:3000/dashboard'
-      });
-    } else {
-      console.error('Passwords do not match');
-      throw new Error('Passwords do not match');
+  const signInHandler = async (name: string, email: string, password: string, confirmPassword: string) => {
+    try {
+      if (password === confirmPassword) {
+        await signIn('domain-signup', {
+          name,
+          email,
+          password,
+          callbackUrl: 'http://localhost:3000/dashboard'
+        });
+      } else {
+        console.error('Passwords do not match');
+      }
+    } catch (error) {
+      console.error(`There was an error trying to sign in: ${error}`);
     }
   };
-  const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
+
+  const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }): Promise<void> => {
     try {
       const response = await fetch('http://localhost:3000/api/auth/user', {
         method: 'POST',
@@ -51,12 +55,9 @@ const Signup: FC = () => {
 
       const data = await response.json();
 
-      signInHandler(data.name, data.email, data.password, data.confirmPassword);
-
-      return { name: data.name, email: data.email, password: data.password };
+      await signInHandler(data.name, data.email, data.password, data.confirmPassword);
     } catch (error) {
-      console.error(`Error logging in: ${error}`);
-      throw new Error(`Error logging in: ${error}`);
+      console.error(`There was an error trying to sign in: ${error}`);
     }
   });
 
@@ -82,7 +83,7 @@ const Signup: FC = () => {
             </Button>
           </p>
         </header>
-        <form className="signup_form" onSubmit={() => submitHandler()}>
+        <form className="signup_form" onSubmit={submitHandler}>
           <div className="signup_form_row">
             <Input
               type="text"
@@ -156,7 +157,7 @@ const Signup: FC = () => {
               checked={isChecked}
             />
           </div>
-          <Button className="signup_button" onClick={() => submitHandler()}>
+          <Button className="signup_button" onClick={submitHandler}>
             Create account
           </Button>
         </form>

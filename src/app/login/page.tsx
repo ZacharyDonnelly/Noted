@@ -2,13 +2,13 @@
 
 import { Button, Checkbox, Input } from '@/components/base';
 import { signIn, useSession } from 'next-auth/react';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, type FC } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import './login.scss';
-import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const Login: FC = () => {
   const { status } = useSession();
@@ -23,22 +23,31 @@ const Login: FC = () => {
     }
   }, [isAuthenticated, status, router]);
 
-  const submitHandler = handleSubmit(async ({ email, password }) => {
-    try {
-      signIn('domain-login', {
-        email,
-        password,
-        callbackUrl: 'http://localhost:3000/dashboard'
-      });
-    } catch (error) {
-      console.error(`Error logging in: ${error}`);
-      throw new Error(`Error logging in: ${error}`);
-    }
+  const submitHandler = handleSubmit(({ email, password }): void => {
+    void (async () => {
+      try {
+        await signIn('domain-login', {
+          email,
+          password,
+          callbackUrl: 'http://localhost:3000/dashboard'
+        });
+      } catch (error) {
+        console.error(`Error logging in: ${error}`);
+      }
+    })();
   });
 
-  const checkboxHandler = (): void => {
-    setIsChecked(!isChecked);
+  const oAuthHandler = (provider: string): void => {
+    void (async () => {
+      try {
+        await signIn(provider);
+      } catch (error) {
+        console.error(`Error logging in with ${provider}: ${error}`);
+      }
+    })();
   };
+
+  const checkboxHandler = (): void => setIsChecked(!isChecked);
 
   return (
     <section className="login">
@@ -51,7 +60,7 @@ const Login: FC = () => {
             </Link>
           </div>
         </header>
-        <form className="login_form" onSubmit={() => submitHandler()}>
+        <form className="login_form" onSubmit={submitHandler}>
           <div className="login_form_row">
             <Input
               type="email"
@@ -93,17 +102,17 @@ const Login: FC = () => {
               checked={isChecked}
             />
           </div>
-          <Button className="login_button" onClick={() => submitHandler()}>
+          <Button className="login_button" onClick={submitHandler}>
             Log in
           </Button>
         </form>
         <div className="login_oauth_buttons">
           <p className="continue_with">Or continue with</p>
           <div className="oauth_button_group">
-            <Button className="google_oauth_button" btnText="Google" onClick={() => signIn('google')} mask>
+            <Button className="google_oauth_button" btnText="Google" onClick={() => oAuthHandler('google')} mask>
               <Image src="/icons/google.svg" width={20} height={20} alt="Sign in with Google" />
             </Button>
-            <Button className="github_oauth_button" btnText="Github" onClick={() => signIn('github')} mask>
+            <Button className="github_oauth_button" btnText="Github" onClick={() => oAuthHandler('google')} mask>
               <Image src="/icons/github.svg" width={20} height={20} alt="Sign in with Github" />
             </Button>
           </div>

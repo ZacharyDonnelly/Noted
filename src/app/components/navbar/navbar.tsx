@@ -13,7 +13,7 @@ const Navbar: FC = () => {
   const { data: session, status } = useSession();
   const [isHomepage, setIsHomepage] = useState<boolean>(true);
   const [authPage, setAuthPage] = useState<string>('');
-  const [isPassedAuth, setIsPassedAuth] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const pathname = usePathname();
 
   if (session && status) {
@@ -21,25 +21,31 @@ const Navbar: FC = () => {
   }
 
   const handleSignOut = (): void => {
-    signOut({ callbackUrl: '/login' });
+    void (async () => {
+      try {
+        await signOut({ callbackUrl: '/login' });
+      } catch (error) {
+        console.error(`Error signing out: ${error}`);
+      }
+    })();
   };
 
   // Refactor this because...well it's hideous
   const stateHandler = (page: string): void => {
     if (page === 'login') {
-      setIsPassedAuth(false);
+      setIsAuthenticated(false);
       setIsHomepage(false);
       setAuthPage('/login');
     } else if (page === 'sign up') {
-      setIsPassedAuth(false);
+      setIsAuthenticated(false);
       setIsHomepage(false);
       setAuthPage('/signup');
     } else if (page === 'dashboard') {
-      setIsPassedAuth(true);
+      setIsAuthenticated(true);
       setIsHomepage(false);
       setAuthPage('');
     } else {
-      setIsPassedAuth(false);
+      setIsAuthenticated(false);
       setIsHomepage(true);
     }
   };
@@ -85,14 +91,14 @@ const Navbar: FC = () => {
           })}
         >
           <li className="nav_item">
-            {authPage !== '/login' && !isPassedAuth && (
+            {authPage !== '/login' && !isAuthenticated && (
               <Button className="nav_button">
                 <Link href="/login">Login</Link>
               </Button>
             )}
           </li>
           <li className="nav_item">
-            {authPage !== '/signup' && !isPassedAuth && (
+            {authPage !== '/signup' && !isAuthenticated && (
               <Button className="nav_button create">
                 <Link href="/signup">Sign up</Link>
               </Button>

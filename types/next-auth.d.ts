@@ -23,6 +23,15 @@ declare module 'next-auth' {
     email: string;
     name: string;
   }
+
+  interface DefaultSession {
+    user: {
+      id: string;
+      accessToken: string;
+      email: string;
+      name: string;
+    };
+  }
 }
 
 declare module 'next-auth/jwt' {
