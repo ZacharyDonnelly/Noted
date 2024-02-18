@@ -163,7 +163,7 @@
   },
   "packageManager": "yarn@4.1.0",
   "resolutions": {
-    "caniuse-lite": "1.0.30001587"
+    "caniuse-lite": "1.0.30001588"
   },
   "scriptlint": {
     "strict": true,
