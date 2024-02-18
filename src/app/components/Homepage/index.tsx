@@ -8,16 +8,16 @@ const Homepage: React.FC = () => (
     <Hero />
     <section className="homepage_cta">
       <header className="homepage_header">
-        <h3>Why Notebook?</h3>
+        <h3>Why Noted?</h3>
         <p>
-          Notebook is a personal note taking app and blog, all in one It&apos;s the perfect tool for creators, writers,
+          Noted is a personal note taking app and blog, all in one It&apos;s the perfect tool for creators, writers,
           developers, and anyone who wants to share their ideas with the world.
         </p>
       </header>
       <div className="card_row">
         <Card
           header="All the features you need"
-          content="Use Notebook's rich text editor, translation and text to voice"
+          content="Use Noted's rich text editor, translation and text to voice"
         />
         <Card
           header="Instant translations"

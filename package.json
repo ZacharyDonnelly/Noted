@@ -131,7 +131,6 @@
     "nodemon": "^3.0.3",
     "npm-run-all2": "^6.0.0",
     "prettier": "^3.2.5",
-    "redis": "^4.6.13",
     "rimraf": "^5.0.5",
     "sass": "^1.70.0",
     "scriptlint": "^3.0.0",

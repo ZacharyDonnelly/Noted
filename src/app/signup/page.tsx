@@ -70,7 +70,7 @@ const Signup: FC = () => {
             <h1>Create account</h1>
             <div className="signup_logo">
               <Link href="/">
-                <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
+                <Image src="/logos/logo.svg" width={100} height={85} alt="Noted" />
               </Link>
             </div>
           </div>

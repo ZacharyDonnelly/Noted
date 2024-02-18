@@ -47,7 +47,7 @@ const Navbar: FC = () => {
     <nav className="navbar">
       <div className="logo">
         <Link href="/">
-          <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
+          <Image src="/logos/logo.svg" width={100} height={85} alt="Noted" />
         </Link>
       </div>
       {isAuthenticated ? (

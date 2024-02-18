@@ -65,7 +65,7 @@ const Login: FC = () => {
           <h1>Login</h1>
           <div className="login_logo">
             <Link href="/">
-              <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
+              <Image src="/logos/logo.svg" width={100} height={85} alt="Noted" />
             </Link>
           </div>
         </header>
