@@ -33,6 +33,7 @@ const Login: FC = () => {
             callbackUrl: 'http://localhost:3000/dashboard/'
           });
         } else {
+          // eslint-disable-next-line no-alert
           alert('Handle me'); // TODO: Add real handler for this
         }
       } catch (error) {

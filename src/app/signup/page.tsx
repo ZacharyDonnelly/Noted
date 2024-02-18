@@ -55,6 +55,7 @@ const Signup: FC = () => {
           console.error(`There was an error trying to sign in: ${error}`);
         }
       } else {
+        // eslint-disable-next-line no-alert
         alert('Please check the box below'); // TODO: Add real handler for this
       }
       return { name, email };
