@@ -1,6 +1,8 @@
 'use client';
 
 import Button from '@/components/base/button';
+import { HOME_PAGE, LOGIN_PAGE, SIGNUP_PAGE } from '@/constants/navbar';
+import { AUTHENTICATED, LOADING, UNAUTHENTICATED } from '@/constants/session';
 import cn from 'classnames';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -11,9 +13,8 @@ import './navbar.scss';
 
 const Navbar: FC = () => {
   const { data: session, status } = useSession();
-  const [isHomepage, setIsHomepage] = useState<boolean>(true);
   const [authPage, setAuthPage] = useState<string>('');
-  const [isPassedAuth, setIsPassedAuth] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const pathname = usePathname();
 
   if (session && status) {
@@ -21,44 +22,26 @@ const Navbar: FC = () => {
   }
 
   const handleSignOut = (): void => {
-    signOut({ callbackUrl: '/login' });
-  };
-
-  // Refactor this because...well it's hideous
-  const stateHandler = (page: string): void => {
-    if (page === 'login') {
-      setIsPassedAuth(false);
-      setIsHomepage(false);
-      setAuthPage('/login');
-    } else if (page === 'sign up') {
-      setIsPassedAuth(false);
-      setIsHomepage(false);
-      setAuthPage('/signup');
-    } else if (page === 'dashboard') {
-      setIsPassedAuth(true);
-      setIsHomepage(false);
-      setAuthPage('');
-    } else {
-      setIsPassedAuth(false);
-      setIsHomepage(true);
-    }
-  };
-
-  const urlHandler = (path: string): void => {
-    if (path === '/') {
-      stateHandler('home');
-    } else if (path === '/login') {
-      stateHandler('login');
-    } else if (path === '/signup') {
-      stateHandler('sign up');
-    } else if (path === '/dashboard') {
-      stateHandler('dashboard');
-    }
+    void (async () => {
+      try {
+        await signOut({ callbackUrl: '/login' });
+      } catch (error) {
+        console.error(`Error signing out: ${error}`);
+      }
+    })();
   };
 
   useEffect((): void => {
-    urlHandler(pathname);
-  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+    setAuthPage(pathname);
+
+    if (status === AUTHENTICATED) {
+      setIsAuthenticated(true);
+    } else if (status === UNAUTHENTICATED) {
+      setIsAuthenticated(false);
+    } else if (status === LOADING) {
+      setIsAuthenticated(false);
+    }
+  }, [pathname, status]);
 
   return (
     <nav className="navbar">
@@ -67,13 +50,13 @@ const Navbar: FC = () => {
           <Image src="/logos/logo.svg" width={100} height={85} alt="Notebook" />
         </Link>
       </div>
-      {status === 'authenticated' ? (
+      {isAuthenticated ? (
         <ul className="nav_items">
           <li className="nav_item">
             <p className="nav_item username">{session?.user?.name}</p>
           </li>
           <li className="nav_item">
-            <Button className="nav_button create" onClick={() => handleSignOut()}>
+            <Button className="nav_button create" onClick={handleSignOut}>
               Sign out
             </Button>
           </li>
@@ -81,20 +64,20 @@ const Navbar: FC = () => {
       ) : (
         <ul
           className={cn('nav_items', {
-            singleBtn: !isHomepage
+            buttonGap: authPage === HOME_PAGE
           })}
         >
           <li className="nav_item">
-            {authPage !== '/login' && !isPassedAuth && (
+            {authPage !== LOGIN_PAGE && (
               <Button className="nav_button">
-                <Link href="/login">Login</Link>
+                <Link href={LOGIN_PAGE}>Login</Link>
               </Button>
             )}
           </li>
           <li className="nav_item">
-            {authPage !== '/signup' && !isPassedAuth && (
+            {authPage !== SIGNUP_PAGE && (
               <Button className="nav_button create">
-                <Link href="/signup">Sign up</Link>
+                <Link href={SIGNUP_PAGE}>Sign up</Link>
               </Button>
             )}
           </li>

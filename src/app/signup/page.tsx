@@ -3,7 +3,6 @@
 import Button from '@/components/base/button';
 import Checkbox from '@/components/base/checkbox';
 import Input from '@/components/base/input';
-import axios from 'axios';
 import { signIn, useSession } from 'next-auth/react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
@@ -27,44 +26,38 @@ const Signup: FC = () => {
     }
   }, [isAuthenticated, status, router]);
 
-  const signInHandler = (name: string, email: string, password: string, confirmPassword: string) => {
-    if (password === confirmPassword) {
-      signIn('domain-signup', {
-        name,
-        email,
-        password,
-        callbackUrl: 'http://localhost:3000/dashboard'
-      });
-    } else {
-      console.error('Passwords do not match');
-      throw new Error('Passwords do not match');
-    }
-  };
+  const submitHandler = handleSubmit(
+    async ({ name, email, password, confirmPassword }): Promise<{ name: string; email: string }> => {
+      try {
+        if (password === confirmPassword) {
+          await fetch('http://localhost:3000/api/auth/user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password, confirmPassword })
+          });
 
-  const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }) => {
-    try {
-      const data = await axios.post(
-        `http://localhost:3000/api/auth/user?name=${name}&email=${email}&password=${password}&confirmPassword=${confirmPassword}`,
-        {
-          name,
-          email,
-          password,
-          confirmPassword
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          signIn('credentials', {
+            email,
+            password,
+            callbackUrl: '/dashboard',
+            redirect: true
+          })
+            .then(() => ({ name, email }))
+            .catch(error => {
+              console.error('Error Creating Account!', error);
+              router.push('/signup');
+            });
+        } else {
+          console.error('Passwords do not match');
         }
-      );
-      if (data.status === 200) {
-        signInHandler(name, email, password, confirmPassword);
+      } catch (error) {
+        console.error(`There was an error trying to sign in: ${error}`);
       }
-    } catch (error) {
-      console.error(`Error logging in: ${error}`);
-      throw new Error(`Error logging in: ${error}`);
+      return { name, email };
     }
-  });
+  );
 
   const checkboxHandler = (): void => {
     setIsChecked(!isChecked);
@@ -88,7 +81,7 @@ const Signup: FC = () => {
             </Button>
           </p>
         </header>
-        <form className="signup_form" onSubmit={() => submitHandler()}>
+        <form className="signup_form" onSubmit={submitHandler}>
           <div className="signup_form_row">
             <Input
               type="text"
@@ -162,7 +155,7 @@ const Signup: FC = () => {
               checked={isChecked}
             />
           </div>
-          <Button className="signup_button" onClick={() => submitHandler()}>
+          <Button className="signup_button" onClick={submitHandler}>
             Create account
           </Button>
         </form>

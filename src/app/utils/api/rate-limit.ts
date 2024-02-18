@@ -1,3 +1,5 @@
+import { INTERVAL, UNIQUE_TOKEN_PER_INTERVAL } from '@/constants/rateLimit';
+import { RateLimitResponse } from '@/types/utils/rateLimit';
 import { LRUCache } from 'lru-cache';
 import type { NextApiResponse } from 'next';
 
@@ -6,10 +8,10 @@ type Options = {
   interval?: number;
 };
 
-export default function rateLimit(options?: Options): Promise<any> | any {
+export default function rateLimit(options?: Options): RateLimitResponse {
   const tokenCache = new LRUCache({
-    max: options?.uniqueTokenPerInterval || 500,
-    ttl: options?.interval || 60000
+    max: options?.uniqueTokenPerInterval || UNIQUE_TOKEN_PER_INTERVAL,
+    ttl: options?.interval || INTERVAL
   });
 
   return {
