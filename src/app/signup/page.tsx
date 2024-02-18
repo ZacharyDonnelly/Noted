@@ -26,40 +26,38 @@ const Signup: FC = () => {
     }
   }, [isAuthenticated, status, router]);
 
-  const signInHandler = async (name: string, email: string, password: string, confirmPassword: string) => {
-    try {
-      if (password === confirmPassword) {
-        await signIn('domain-signup', {
-          name,
-          email,
-          password,
-          callbackUrl: 'http://localhost:3000/dashboard'
-        });
-      } else {
-        console.error('Passwords do not match');
+  const submitHandler = handleSubmit(
+    async ({ name, email, password, confirmPassword }): Promise<{ name: string; email: string }> => {
+      try {
+        if (password === confirmPassword) {
+          await fetch('http://localhost:3000/api/auth/user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password, confirmPassword })
+          });
+
+          signIn('credentials', {
+            email,
+            password,
+            callbackUrl: '/dashboard',
+            redirect: true
+          })
+            .then(() => ({ name, email }))
+            .catch(error => {
+              console.error('Error Creating Account!', error);
+              router.push('/signup');
+            });
+        } else {
+          console.error('Passwords do not match');
+        }
+      } catch (error) {
+        console.error(`There was an error trying to sign in: ${error}`);
       }
-    } catch (error) {
-      console.error(`There was an error trying to sign in: ${error}`);
+      return { name, email };
     }
-  };
-
-  const submitHandler = handleSubmit(async ({ name, email, password, confirmPassword }): Promise<void> => {
-    try {
-      const response = await fetch('http://localhost:3000/api/auth/user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, email, password, confirmPassword })
-      });
-
-      const data = await response.json();
-
-      await signInHandler(data.name, data.email, data.password, data.confirmPassword);
-    } catch (error) {
-      console.error(`There was an error trying to sign in: ${error}`);
-    }
-  });
+  );
 
   const checkboxHandler = (): void => {
     setIsChecked(!isChecked);

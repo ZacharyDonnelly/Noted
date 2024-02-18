@@ -5,7 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useState, type FC } from 'react';
 import { useForm, type FieldValues } from 'react-hook-form';
 import './login.scss';
@@ -24,27 +24,31 @@ const Login: FC = () => {
   }, [isAuthenticated, status, router]);
 
   const submitHandler = handleSubmit(({ email, password }): void => {
-    void (async () => {
-      try {
-        await signIn('domain-login', {
-          email,
-          password,
-          callbackUrl: 'http://localhost:3000/dashboard'
-        });
-      } catch (error) {
-        console.error(`Error logging in: ${error}`);
-      }
-    })();
+    signIn('credentials', {
+      email,
+      password,
+      callbackUrl: '/dashboard'
+    })
+      .then(() => {
+        redirect('/dashboard');
+      })
+      .catch(error => {
+        console.error('Error logging in!', error);
+        redirect('/login');
+      });
   });
 
   const oAuthHandler = (provider: string): void => {
-    void (async () => {
-      try {
-        await signIn(provider);
-      } catch (error) {
-        console.error(`Error logging in with ${provider}: ${error}`);
-      }
-    })();
+    if (provider === 'github') {
+      signIn('github', { callbackUrl: '/dashboard' }).catch(error => console.error('Error logging in!', error));
+    } else {
+      signIn('google')
+        .then(() => router.push('/dashboard'))
+        .catch(error => {
+          console.error('Error logging in!', error);
+          router.push('/login');
+        });
+    }
   };
 
   const checkboxHandler = (): void => setIsChecked(!isChecked);
@@ -112,7 +116,7 @@ const Login: FC = () => {
             <Button className="google_oauth_button" btnText="Google" onClick={() => oAuthHandler('google')} mask>
               <Image src="/icons/google.svg" width={20} height={20} alt="Sign in with Google" />
             </Button>
-            <Button className="github_oauth_button" btnText="Github" onClick={() => oAuthHandler('google')} mask>
+            <Button className="github_oauth_button" btnText="Github" onClick={() => oAuthHandler('github')} mask>
               <Image src="/icons/github.svg" width={20} height={20} alt="Sign in with Github" />
             </Button>
           </div>
