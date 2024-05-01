@@ -2793,7 +2793,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.6.0":
+"buffer@npm:^5.7.1":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -3408,9 +3408,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^13.6.4":
-  version: 13.6.4
-  resolution: "cypress@npm:13.6.4"
+"cypress@npm:^13.8.1":
+  version: 13.8.1
+  resolution: "cypress@npm:13.8.1"
   dependencies:
     "@cypress/request": "npm:^3.0.0"
     "@cypress/xvfb": "npm:^1.2.4"
@@ -3419,7 +3419,7 @@ __metadata:
     arch: "npm:^2.2.0"
     blob-util: "npm:^2.0.2"
     bluebird: "npm:^3.7.2"
-    buffer: "npm:^5.6.0"
+    buffer: "npm:^5.7.1"
     cachedir: "npm:^2.3.0"
     chalk: "npm:^4.1.0"
     check-more-types: "npm:^2.24.0"
@@ -3437,7 +3437,7 @@ __metadata:
     figures: "npm:^3.2.0"
     fs-extra: "npm:^9.1.0"
     getos: "npm:^3.2.1"
-    is-ci: "npm:^3.0.0"
+    is-ci: "npm:^3.0.1"
     is-installed-globally: "npm:~0.4.0"
     lazy-ass: "npm:^1.6.0"
     listr2: "npm:^3.8.3"
@@ -3456,7 +3456,7 @@ __metadata:
     yauzl: "npm:^2.10.0"
   bin:
     cypress: bin/cypress
-  checksum: 10/acdc246cf41bf77b95ab78a26ae7cb000c64abfd768ad7cef54830e1fa8d7e89cee64a56d00a9a389ac36ff6ec8bd704d6fa1d5d92123123c8d96ebae6328b8b
+  checksum: 10/ff5410ef53dd2498a7143dc10e6c90d4fe0314ac536ebef8cdd503a2d2bfff267e91ffda0f2ede8da68cdae9b05ddbb59c2f177090ce3e6d51b6506b0e8a35d5
   languageName: node
   linkType: hard
 
@@ -5591,7 +5591,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-ci@npm:^3.0.0":
+"is-ci@npm:^3.0.1":
   version: 3.0.1
   resolution: "is-ci@npm:3.0.1"
   dependencies:
@@ -7931,7 +7931,7 @@ __metadata:
     bcryptjs: "npm:^2.4.3"
     classnames: "npm:^2.5.1"
     cross-env: "npm:^7.0.3"
-    cypress: "npm:^13.6.4"
+    cypress: "npm:^13.8.1"
     cypress-axe: "npm:^1.5.0"
     eslint: "npm:^8.56.0"
     eslint-config-airbnb: "npm:^19.0.4"
